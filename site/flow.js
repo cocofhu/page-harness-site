@@ -105,7 +105,7 @@ function build(){const t=T[L],h=t.hero,c=t.cta;
   <div class="ags">${[['claude','Claude Code'],['codex','Codex'],['cursor','Cursor CLI'],['codebuddy','CodeBuddy Code'],['opencode','OpenCode']].map(([k,n])=>`<span>${ai(k)}${n}</span>`).join('')}</div>
   <div class="foot"><span class="fl">${LOGO16}page-harness <i>v0.1.1</i></span><span>${c.lic}</span><span>localhost:17990 · localhost:17991</span></div></div></section>
  <div class="wipe" data-k="wipe"><span data-k="wl"></span></div>
- <div class="pg" data-k="pg" aria-hidden="true"><span class="n"><b data-k="pgn">01</b> / 05</span><span class="dt">${BEATS.map((b,i)=>`<i class="${i&&BEATS[i-1][0]!==b[0]?'gap':''}"></i>`).join('')}</span></div>`;
+ <div class="pg" data-k="pg" aria-hidden="true"><span class="n"><b data-k="pgn">01</b> / 05</span><span class="dt">${BEATS.map((b,i)=>`<i></i>`).join('')}</span></div>`;
  // index elements
  K={};cv.querySelectorAll('[data-k]').forEach(e=>{});
  SC=[...cv.querySelectorAll('section.sc')].map(s=>{const m={root:s};s.querySelectorAll('[data-k]').forEach(e=>{if(!m[e.dataset.k])m[e.dataset.k]=e});return m});
@@ -121,19 +121,34 @@ const START=[];{let u=0;LEN.forEach((l,i)=>{START.push(u);u+=l+(i<LEN.length-1?T
 const TOTAL=START[4]+LEN[4];
 /* ---------- segment playback: one gesture = one beat, time-based ---------- */
 // beat stops in scene-local progress; each beat plays from the previous stop to this one
-const BEATS=[[0,.62,'boot'],[0,1,'dock'],[1,.40,'pick'],[1,.72,'chat'],[1,1,'hmr'],[2,.30,'share'],[2,.57,'comment'],[2,.73,'resolve'],[2,1,'approve'],[3,.33,'menu'],[3,1,'codex'],[4,.02,'install']];
+// one beat per scene: each gesture plays a whole scene
+const BEATS=[[0,1,'start'],[1,1,'pick·chat·hmr'],[2,1,'share·review'],[3,1,'agents'],[4,.02,'install']];
+// short holds after sub-actions inside a scene (scene-local progress), so each action reads
+const HOLDS=[[.38,.62],[.40,.60,.74],[.29,.565,.72],[.31,.62],[]];
+const HOLD_MS=300,SCENE_MS=1550,WIPE_MS=1100,BACK=.45,MIN_MS=1500;
 const STOPS=[0,...BEATS.map(([i,p])=>START[i]+p*LEN[i])];
 const RM=matchMedia('(prefers-reduced-motion: reduce)');
 let U=0,anim=null,lastIn=0;
-const dur=(a,b,back)=>RM.matches?0:Math.min(4000,Math.max(1500,Math.abs(b-a)*1100))*(back?.55:1);
 function stopIdx(u){let k=0;STOPS.forEach((s,i)=>{if(u>=s-1e-4)k=i});return k}
-function play(to,ms,ease){if(anim)cancelAnimationFrame(anim.raf);const from=U;
- if(!ms){U=to;anim=null;render();return}
- const t0=performance.now();anim={to};
- const tick=now=>{const k=Math.min(1,(now-t0)/ms);U=lerp(from,to,ease?E(k):k);render();if(k<1)anim.raf=requestAnimationFrame(tick);else{anim=null;U=to;render()}};
+const HOLD_U=HOLDS.flatMap((h,i)=>h.map(p=>START[i]+p*LEN[i]));
+const inScene=u=>START.some((st,i)=>u>=st-1e-6&&u<=st+LEN[i]+1e-6);
+// build a time→u keyframe list from a to b: scenes at SCENE_MS/u, wipes at WIPE_MS/u, holds forward only
+function plan(a,b){const back=b<a,lo=Math.min(a,b),hi=Math.max(a,b);
+ const cuts=new Set([lo,hi]);START.forEach((st,i)=>{[st,st+LEN[i]].forEach(v=>{if(v>lo&&v<hi)cuts.add(v)})});HOLD_U.forEach(v=>{if(v>lo&&v<hi)cuts.add(v)});
+ let pts=[...cuts].sort((x,y)=>x-y);if(back)pts.reverse();
+ const K=[[0,pts[0]]];let t=0;
+ for(let i=1;i<pts.length;i++){const u0=pts[i-1],u1=pts[i],mid=(u0+u1)/2;t+=Math.abs(u1-u0)*(inScene(mid)?SCENE_MS:WIPE_MS)*(back?BACK:1);K.push([t,u1]);
+  if(!back&&i<pts.length-1&&HOLD_U.some(v=>Math.abs(v-u1)<1e-6)){t+=HOLD_MS;K.push([t,u1])}}
+ const tot=K[K.length-1][0],min=back?MIN_MS*BACK:MIN_MS;if(tot<min&&tot>0)K.forEach(k=>k[0]*=min/tot);
+ return K}
+function play(to){if(anim)cancelAnimationFrame(anim.raf);
+ if(RM.matches){U=to;anim=null;render();return}
+ const K=plan(U,to),T1=K[K.length-1][0],t0=performance.now();anim={to,ms:T1};
+ const at=t=>{for(let i=1;i<K.length;i++){if(t<=K[i][0]){const d=K[i][0]-K[i-1][0];return d?lerp(K[i-1][1],K[i][1],(t-K[i-1][0])/d):K[i][1]}}return to};
+ const tick=now=>{const t=now-t0;U=t>=T1?to:at(t);render();if(t<T1)anim.raf=requestAnimationFrame(tick);else{anim=null;U=to;render()}};
  anim.raf=requestAnimationFrame(tick)}
-function next(){if(anim)return;const i=STOPS.findIndex(s=>s>U+1e-4);if(i<0)return;play(STOPS[i],dur(U,STOPS[i]))}
-function prev(){if(anim)return;let i=-1;STOPS.forEach((s,k)=>{if(s<U-1e-4)i=k});if(i<0)return;play(STOPS[i],dur(U,STOPS[i],true))}
+function next(){if(anim)return;const i=STOPS.findIndex(s=>s>U+1e-4);if(i<0)return;play(STOPS[i])}
+function prev(){if(anim)return;let i=-1;STOPS.forEach((s,k)=>{if(s<U-1e-4)i=k});if(i<0)return;play(STOPS[i])}
 function go(i){if(anim){cancelAnimationFrame(anim.raf);anim=null}
  const to=i?START[i]+.02:0,cv=document.getElementById('cv');
  if(RM.matches||Math.abs(to-U)<1e-3){U=to;render();return}
@@ -279,6 +294,6 @@ function boot(){build();fit();lastU=-1;
  SC.forEach(m=>{if(m.bw)m.bw.style.transform='none'});measure();frame()}
 addEventListener('resize',()=>{fit();lastU=-1;req()});
 document.fonts&&document.fonts.ready.then(()=>{measure();lastU=-1;req()});
-window.PH={boot,start:START,total:TOTAL,len:LEN,stops:STOPS,beats:BEATS.map(b=>b[2]),next,prev,go,get u(){return U},get beat(){return stopIdx(U)},get playing(){return !!anim}};
+window.PH={boot,start:START,total:TOTAL,len:LEN,stops:STOPS,beats:BEATS.map(b=>b[2]),plan,next,prev,go,get u(){return U},get beat(){return stopIdx(U)},get playing(){return !!anim}};
 boot();
 })();

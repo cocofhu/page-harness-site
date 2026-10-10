@@ -11,7 +11,7 @@ python3 -m http.server 8000
 
 ## How the page works
 
-The page is one continuous take on a fixed stage (`#fix`), played in segments: each scroll gesture (wheel, trackpad, arrow keys / Space / PageDown, or a swipe on touch screens) plays one whole beat on a time-based timeline, and input is ignored while a beat plays (trackpad inertia included). Scrolling up rewinds the previous beat. Clicking a nav item jumps to the start of that step, Home / End jump to the start / install. With `prefers-reduced-motion`, beats jump instantly. A small `02 / 05` counter with one dot per beat shows where you are. The 12 beats cover five steps:
+The page is one continuous take on a fixed stage (`#fix`), played one scene per gesture: each scroll gesture (wheel, trackpad, arrow keys / Space / PageDown, or a swipe on touch screens) plays a whole scene on a time-based timeline, with short holds after each sub-action so it reads, and input is ignored while a scene plays (trackpad inertia included). Scrolling up rewinds the previous scene. Clicking a nav item jumps to the start of that step, Home / End jump to the start / install. With `prefers-reduced-motion`, scenes jump instantly. A small `02 / 05` counter with one dot per scene shows where you are. The five scenes:
 
 1. `npx page-harness` starts the harness in front of a running dev server
 2. Pick an element on the page and chat with the agent about what to change
