@@ -16,7 +16,7 @@ The page is one continuous, scroll-driven take: a fixed stage (`#fix`) is redraw
 1. `npx page-harness` starts the harness in front of a running dev server
 2. Pick an element on the page and chat with the agent about what to change
 3. `--share` a link so teammates can review and comment on the same page
-4. Switch the agent CLI per chat (Claude Code, Codex, Cursor Agent, CodeBuddy, OpenCode)
+4. Switch the agent CLI per chat (Claude Code, Codex, Cursor CLI, CodeBuddy, OpenCode)
 5. Install
 
 Copy is available in Chinese and English. Use the 中 / EN toggle in the nav, or open the page with `?lang=zh` or `?lang=en`. Without either, it follows the browser language, and the last choice is remembered.
