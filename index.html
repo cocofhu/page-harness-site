@@ -3,21 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Page Harness — 给任何页面，接上你的 Agent</title>
-  <meta name="description" content="给任意正在运行的前端地址，页面上就多出 取点 / 产物 / 对话 底栏，由你本机已有的 Claude Code、Codex、Cursor Agent 驱动。">
+  <title>Page Harness — 指着页面，让 Agent 改代码</title>
+  <meta name="description" content="给任意正在运行的前端地址，页面右下角多出一个底栏。点选元素、描述改动，你本机的 Claude Code、Codex 或 Cursor Agent 直接写进源码。">
   <meta name="theme-color" content="#ffffff">
-  <meta property="og:title" content="Page Harness — 给任何页面，接上你的 Agent">
-  <meta property="og:description" content="取点 / 产物 / 对话，由你本机的编码 Agent CLI 驱动。">
+  <meta property="og:title" content="Page Harness — 指着页面，让 Agent 改代码">
+  <meta property="og:description" content="点选元素、描述改动，你本机的 Claude Code、Codex 或 Cursor Agent 直接写进源码。">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/f-compare.webp">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/f-pick.webp">
   <link rel="stylesheet" href="style.css">
   <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
-  <!-- icon sprite: brand logos from simple-icons (CC0), line icons drawn for this page -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="lg-claude" viewBox="0 0 24 24"><path fill="currentColor" d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></symbol>
     <symbol id="lg-openai" viewBox="0 0 24 24"><path fill="currentColor" d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></symbol>
@@ -26,7 +27,6 @@
     <symbol id="lg-node" viewBox="0 0 24 24"><path fill="currentColor" d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z"/></symbol>
     <symbol id="lg-npm" viewBox="0 0 24 24"><path fill="currentColor" d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/></symbol>
     <symbol id="lg-md" viewBox="0 0 24 24"><path fill="currentColor" d="M22.27 19.385H1.73A1.73 1.73 0 010 17.655V6.345a1.73 1.73 0 011.73-1.73h20.54A1.73 1.73 0 0124 6.345v11.308a1.73 1.73 0 01-1.73 1.731zM5.769 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.46v7.847zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.039z"/></symbol>
-
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11.2a6.5 6.5 0 1 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></g></symbol>
@@ -47,523 +47,264 @@
       <symbol id="i-plug" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v4M15 3v4M6.5 7h11v3.5a5.5 5.5 0 0 1-11 0zM12 16v5"/></g></symbol>
   </svg>
 
-  <div class="grain" aria-hidden="true"></div>
-
-  <header class="nav" data-ph-skip>
-    <a class="wordmark" href="#top" aria-label="Page Harness">
-      <span class="wm-c" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-      <span class="wm-t">Page<b></b>Harness</span>
-    </a>
-    <nav class="nav-links">
-      <a href="#dock">底栏</a>
-      <a href="#live">Live</a>
-      <a href="#review">评审</a>
-      <a href="#how">原理</a>
-      <a href="#security">安全</a>
-    </nav>
-    <a class="nav-gh" href="https://www.npmjs.com/package/page-harness" target="_blank" rel="noopener">
-      <svg aria-hidden="true"><use href="#lg-npm"/></svg>
-      npm
-    </a>
+  <header class="nav">
+    <div class="wrap nav-in">
+      <a class="wordmark" href="#top" aria-label="Page Harness">
+        <span class="wm-c" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="wm-t">Page<b></b>Harness</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#live">Live 候选</a>
+        <a href="#review">评审</a>
+        <a href="#agents">Agent</a>
+        <a href="#how">原理</a>
+      </nav>
+      <a class="btn btn-dark btn-sm" href="https://www.npmjs.com/package/page-harness" target="_blank" rel="noopener">
+        <svg aria-hidden="true"><use href="#lg-npm"/></svg>npm
+      </a>
+    </div>
   </header>
 
-  <main id="main">
-    <!-- ───────────── HERO ───────────── -->
+  <main>
+    <!-- HERO -->
     <section class="hero" id="top">
-      <div class="hero-grid" aria-hidden="true"></div>
-      <div class="xhair" aria-hidden="true" data-ph-skip><i class="xh-x"></i><i class="xh-y"></i><span class="xh-read">x 0000 · y 0000</span></div>
-
-      <div class="wrap hero-inner">
-        <p class="eyebrow" data-reveal><span class="pulse"></span>v0.1 · MIT · 全部在你本机运行</p>
-
-        <h1 class="hero-title" id="heroTitle">
-          <span class="ln" data-reveal>给任何页面，</span>
-          <span class="ln" data-reveal>接上你的 <em class="agent-word">Agent<span class="frame" aria-hidden="true"><i></i><i></i><i></i><i></i><b>em.agent · picked</b></span></em></span>
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="wrap hero-copy">
+        <a class="pill" href="https://www.npmjs.com/package/page-harness" target="_blank" rel="noopener" data-reveal>
+          <span class="pill-tag">开源</span>MIT · 全部在本机运行<svg aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+        <h1 class="hero-title" data-reveal>
+          指着<span class="picked">页面<i aria-hidden="true">h1 · picked</i></span>，<br>让 Agent 改代码
         </h1>
-
-        <p class="hero-sub" data-reveal>在任意前端页面上多出 <kbd>取点</kbd> <kbd>产物</kbd> <kbd>对话</kbd>，由你本机的编码 Agent 驱动。</p>
-
-        <ul class="hero-chips" data-reveal>
-          <li><svg><use href="#i-check"/></svg>无需沙箱</li>
-          <li><svg><use href="#i-check"/></svg>无需账号</li>
-          <li><svg><use href="#i-check"/></svg>不改项目代码</li>
-        </ul>
-
+        <p class="hero-sub" data-reveal>给任意正在运行的前端地址，页面右下角多出一个底栏。点选元素、说一句要什么，你本机的编码 Agent 直接写进源码。</p>
         <div class="hero-cta" data-reveal>
-          <button class="cmd" data-copy="npx page-harness http://localhost:5173 --project ./my-app --agent claude" type="button">
-            <span class="cmd-ps">$</span>
-            <code>npx page-harness <b>localhost:5173</b></code>
-            <span class="cmd-copy">复制</span>
+          <button class="cmd" type="button" data-copy="npx page-harness http://localhost:5173 --project ./my-app">
+            <span class="cmd-ps">$</span><code>npx page-harness <b>localhost:5173</b></code><span class="cmd-copy">复制</span>
           </button>
-          <span class="hero-hint"><span class="hint-arrow" aria-hidden="true">↘</span>这页就接着演示版，点右下角「取点」试试</span>
+          <a class="btn btn-ghost" href="#flow">看它怎么工作<span aria-hidden="true">↓</span></a>
         </div>
+        <ul class="hero-agents" data-reveal aria-label="支持的 Agent">
+          <li><svg class="c-claude"><use href="#lg-claude"/></svg>Claude Code</li>
+          <li><svg><use href="#lg-openai"/></svg>Codex</li>
+          <li><svg><use href="#lg-cursor"/></svg>Cursor Agent</li>
+        </ul>
       </div>
 
-      <!-- product stage -->
-      <div class="stage-wrap wrap" data-reveal>
-        <div class="stage" id="stage" aria-label="Page Harness 界面示意">
-          <div class="st-chrome">
-            <span class="tl"><i></i><i></i><i></i></span>
-            <span class="st-url"><span class="lock">●</span> 127.0.0.1:<b>17990</b>/dashboard</span>
-            <span class="st-tag">proxied → localhost:5173</span>
+      <div class="wrap-wide" id="flow">
+        <figure class="window" data-reveal>
+          <div class="win-bar">
+            <span class="tl" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="win-url"><svg aria-hidden="true"><use href="#i-lock"/></svg>127.0.0.1:<b>17990</b></span>
+            <span class="win-proxy">代理自 localhost:5199</span>
           </div>
-          <div class="st-body">
-            <div class="st-app">
-              <aside class="st-side">
-                <span class="st-brand">◆ Acme</span>
-                <i class="on"></i><i></i><i></i><i></i>
-              </aside>
-              <div class="st-main">
-                <div class="st-pick">
-                  <h3 class="st-h">本月收入概览</h3>
-                  <span class="st-sel">h3.st-h · 284×32</span>
-                  <div class="st-menu">
-                    <span>↳ 引用到对话</span><span>✎ 评论</span><span class="on">✦ Live 候选</span>
-                  </div>
-                </div>
-                <div class="st-cards">
-                  <div class="st-card"><small>MRR</small><strong>¥482k</strong><em>+12.4%</em></div>
-                  <div class="st-card live"><small>活跃团队</small><strong>1,208</strong><em>+3.1%</em><span class="st-live-tag">LIVE · Bold</span></div>
-                  <div class="st-card"><small>流失率</small><strong>1.9%</strong><em class="dn">−0.4%</em></div>
-                </div>
-                <div class="st-chart">
-                  <svg viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
-                    <defs><linearGradient id="stg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".45"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>
-                    <path d="M0 96 C40 90 60 70 100 74 S160 40 200 52 S260 20 300 30 S360 12 400 8 V120 H0Z" fill="url(#stg)"/>
-                    <path d="M0 96 C40 90 60 70 100 74 S160 40 200 52 S260 20 300 30 S360 12 400 8" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
-                  </svg>
-                  <span class="st-pin">1</span>
-                </div>
-              </div>
-            </div>
-            <div class="st-chat">
-              <div class="st-chat-h"><span>对话</span><span class="chip"><svg class="c-claude"><use href="#lg-claude"/></svg>claude · sonnet</span></div>
-              <div class="st-msg me"><span class="ref">h3.st-h</span>给标题出几个更有冲击力的版本</div>
-              <div class="st-tool"><b>Edit</b> src/pages/Dashboard.vue <span class="ok">✓</span></div>
-              <div class="st-tool"><b>live_update</b> ready · 3 候选 <span class="ok">✓</span></div>
-              <div class="st-msg ai">写好了 3 个候选：<b>Bold</b>、<b>Soft</b>、<b>Wide</b>。底部可以轮换和调参数。<span class="caret"></span></div>
-            </div>
-            <div class="st-livebar"><span class="lv-dot"></span>LIVE <span class="lv-seg"><i>原版</i><i class="on">Bold</i><i>Soft</i><i>Wide</i></span><span class="lv-ok">采用</span></div>
-            <div class="st-dock"><span>◎ 取点</span><span>▤ 产物<b>2</b></span><span class="on">◌ 对话</span></div>
+          <div class="win-view" id="tour">
+            <img class="on" src="assets/f-pick.webp" width="1920" height="1200" alt="点选主标题后弹出：引用到对话、评论、Live 候选">
+            <img src="assets/f-design.webp" width="1920" height="1200" alt="设计候选面板：描述改动、选择数量与展示方式" loading="lazy">
+            <img src="assets/f-compare.webp" width="1920" height="1200" alt="三个候选与原版在页面上并排对比" loading="lazy">
+            <img src="assets/f-chat.webp" width="1920" height="1200" alt="对话窗口里 Agent 说明三个方案，并可直接切换候选" loading="lazy">
+            <img src="assets/f-adopted.webp" width="1920" height="1200" alt="采用第三个候选后的页面" loading="lazy">
           </div>
-        </div>
+        </figure>
+        <ol class="tour-tabs" id="tourTabs" data-reveal>
+          <li class="on"><button type="button"><span class="n">01</span>点选<small>任何元素</small></button><i></i></li>
+          <li><button type="button"><span class="n">02</span>描述<small>说一句要什么</small></button><i></i></li>
+          <li><button type="button"><span class="n">03</span>对比<small>几个候选并排看</small></button><i></i></li>
+          <li><button type="button"><span class="n">04</span>对话<small>Agent 讲清思路</small></button><i></i></li>
+          <li><button type="button"><span class="n">05</span>采用<small>写回源码</small></button><i></i></li>
+        </ol>
+        <p class="tour-note">以上均为真实运行截图：Cursor Agent 在一个示例页面上工作。</p>
       </div>
     </section>
 
-    <!-- ───────────── AGENTS ───────────── -->
-    <section class="agents wrap" aria-label="支持的 Agent">
-      <p class="agents-k" data-reveal>驱动它的，是你已经登录的 Agent CLI</p>
-      <div class="agents-row">
-        <div class="agent a-claude" data-reveal>
-          <svg class="agent-logo"><use href="#lg-claude"/></svg>
-          <div><b>Claude Code</b><code>claude -p</code></div>
-        </div>
-        <div class="agent a-codex" data-reveal>
-          <svg class="agent-logo"><use href="#lg-openai"/></svg>
-          <div><b>Codex</b><code>codex app-server</code></div>
-        </div>
-        <div class="agent a-cursor" data-reveal>
-          <svg class="agent-logo"><use href="#lg-cursor"/></svg>
-          <div><b>Cursor Agent</b><code>cursor-agent -p</code></div>
-        </div>
+    <!-- PICK -->
+    <section class="sec" id="pick">
+      <div class="wrap center-head" data-reveal>
+        <p class="kicker"><svg><use href="#i-hand"/></svg>取点</p>
+        <h2>不用描述位置，点一下就行</h2>
+        <p class="lede">选中的元素连同选择器、文字和 HTML 一起交给 Agent。接下来怎么处理，由你决定。</p>
       </div>
-    </section>
-
-    <!-- ───────────── STEPS ───────────── -->
-    <section class="steps wrap">
-      <div class="step" data-reveal>
-        <span class="step-n">01</span>
-        <h3>跑起开发服务器</h3>
-        <pre class="dark-island"><code><span class="c">$</span> npm run dev
-<span class="dim">  ➜ Local: http://localhost:5173</span></code></pre>
-      </div>
-      <div class="step" data-reveal>
-        <span class="step-n">02</span>
-        <h3>交给 Page Harness</h3>
-        <pre class="dark-island"><code><span class="c">$</span> npx page-harness 5173 \
-    --agent claude</code></pre>
-      </div>
-      <div class="step" data-reveal>
-        <span class="step-n">03</span>
-        <h3>打开 :17990</h3>
-        <pre class="dark-island"><code><span class="dim">  App    </span>http://127.0.0.1:<b>17990</b>
-<span class="dim">  Agents </span>claude <span class="ok">✓</span> codex <span class="ok">✓</span> cursor <span class="ok">✓</span></code></pre>
-      </div>
-    </section>
-
-    <!-- ───────────── DOCK ───────────── -->
-    <section class="section" id="dock">
       <div class="wrap">
-        <header class="sec-head" data-reveal>
-          <span class="sec-n">§ 01 — 底栏</span>
-          <h2>三个按钮，<br>一整个<span class="mark">工作台</span>。</h2>
-        </header>
-
-        <div class="trio">
-          <article class="tcard" data-reveal>
-            <div class="tviz viz-pick" aria-hidden="true">
-              <div class="vp-el">立即开始试用</div>
-              <div class="vp-box"><b>button.cta · 168×44</b></div>
-              <svg class="vp-cursor" viewBox="0 0 24 24"><path d="M4 2l16 9-7 2-3 7z" fill="#fff" stroke="#000" stroke-width="1.2"/></svg>
-              <div class="vp-menu"><span>↳ 引用到对话</span><span>✎ 评论</span><span>⌘ 编辑</span><span class="on">✦ Live 候选</span></div>
-            </div>
-            <span class="t-key">PICK</span>
-            <h3>取点</h3>
-            <p>点选元素，引用、评论、编辑，或开一轮 Live。</p>
-          </article>
-
-          <article class="tcard" data-reveal>
-            <div class="tviz viz-art" aria-hidden="true">
-              <div class="va-tabs"><span class="on">report.md <i>v3</i></span><span>mock.html</span><span>data.json</span></div>
-              <div class="va-body">
-                <div class="va-dev"><span class="on">▭</span><span>▯</span></div>
-                <i style="width:62%"></i><i style="width:88%"></i><i style="width:74%"></i>
-                <div class="va-json"><span>{</span><span>&nbsp;&nbsp;"score": <b>92</b>,</span><span>&nbsp;&nbsp;"issues": [ … 4 ]</span><span>}</span></div>
-              </div>
-              <div class="va-foot"><span>复制</span><span>下载</span><span>PNG</span><span>PDF</span></div>
-            </div>
-            <span class="t-key">ARTIFACTS</span>
-            <h3>产物</h3>
-            <p>报告、原型、JSON、图片，带版本历史。</p>
-          </article>
-
-          <article class="tcard" data-reveal>
-            <div class="tviz viz-chat" aria-hidden="true">
-              <div class="vc-m me">把空状态做得更友好一点</div>
-              <div class="vc-think">▸ 思考了 4 秒</div>
-              <div class="vc-tool"><b>Read</b> EmptyState.tsx</div>
-              <div class="vc-tool"><b>Edit</b> EmptyState.tsx <span>+18 −6</span></div>
-              <div class="vc-m ai">改好了，加了插图和一个主操作按钮。</div>
-              <div class="vc-q"><span>排队 2</span><i>再加个暗色模式适配</i></div>
-            </div>
-            <span class="t-key">CHAT</span>
-            <h3>对话</h3>
-            <p>流式回复、工具卡片、多会话，各自排队。</p>
-          </article>
+        <div class="shot shot-tint shot-pick" data-reveal>
+          <img src="assets/c-pick.webp" width="1680" height="404" alt="选中主标题，弹出引用到对话、评论、Live 候选" loading="lazy">
         </div>
-      </div>
-    </section>
-
-    <!-- ───────────── LIVE (paper) ───────────── -->
-    <section class="section paper" id="live">
-      <div class="wrap">
-        <header class="sec-head" data-reveal>
-          <span class="sec-n">§ 02 — Live 候选</span>
-          <h2>在页面上挑，<br>而不是在<span class="mark">脑子里</span>想。</h2>
-          <p>Agent 在源码里写出 2–4 个候选，你在真实页面上切换、对比、调参，然后采用。</p>
-        </header>
-
-        <div class="live-demo" data-reveal>
-          <div class="ld-stage">
-            <div class="ld-toolbar">
-              <span class="ld-badge"><span class="lv-dot"></span>LIVE · L1a2b3c4</span>
-              <div class="seg" role="tablist" id="ldSeg">
-                <button type="button" data-v="0">原版</button>
-                <button type="button" data-v="1" class="on">Bold</button>
-                <button type="button" data-v="2">Soft</button>
-                <button type="button" data-v="3">Glass</button>
-              </div>
-              <button type="button" class="ld-cmp" id="ldCompare">并排对比</button>
-            </div>
-
-            <div class="ld-canvas" id="ldCanvas" style="--ph-radius:18px; --ph-gap:14px">
-              <div class="ld-card" data-variant="0"><span class="lc-tag">原版</span><small>Pro</small><strong>¥99<em>/月</em></strong><ul><li>无限项目</li><li>团队评审</li><li>优先支持</li></ul><button type="button">升级</button></div>
-              <div class="ld-card v-bold" data-variant="1"><span class="lc-tag">Bold</span><small>Pro</small><strong>¥99<em>/月</em></strong><ul><li>无限项目</li><li>团队评审</li><li>优先支持</li></ul><button type="button">立即升级 →</button></div>
-              <div class="ld-card v-soft" data-variant="2"><span class="lc-tag">Soft</span><small>Pro</small><strong>¥99<em>/月</em></strong><ul><li>无限项目</li><li>团队评审</li><li>优先支持</li></ul><button type="button">升级</button></div>
-              <div class="ld-card v-glass" data-variant="3"><span class="lc-tag">Glass</span><small>Pro</small><strong>¥99<em>/月</em></strong><ul><li>无限项目</li><li>团队评审</li><li>优先支持</li></ul><button type="button">升级</button></div>
-            </div>
-
-            <div class="ld-params">
-              <label>radius <input type="range" min="0" max="32" value="18" data-param="radius"><output>18px</output></label>
-              <label>gap <input type="range" min="4" max="28" value="14" data-param="gap"><output>14px</output></label>
-              <span class="spacer"></span>
-              <button type="button" class="ld-act ghost" data-act="discard">放弃</button>
-              <button type="button" class="ld-act" data-act="adopt">采用</button>
-            </div>
-          </div>
-
-          <div class="ld-code dark-island">
-            <div class="ld-code-h"><span>PricingCard.vue</span><span class="dim">Agent 写入的包裹层</span></div>
-<pre id="ldCode"><code></code></pre>
-            <p class="ld-note"><code>--live-guard-hook</code> 拦住含遗留标记的提交</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ───────────── REVIEW ───────────── -->
-    <section class="section" id="review">
-      <div class="wrap review">
-        <header class="sec-head" data-reveal>
-          <span class="sec-n">§ 03 — 评审模式</span>
-          <h2>没有源码，<br>也能把意见<br><span class="mark">钉在页面上</span>。</h2>
-          <p>公网站点自动进入评审模式：不改文件，结论落在页面上。</p>
-          <div class="rv-feats">
-            <div><svg><use href="#i-pin"/></svg><b>钉意见</b><code>page_note</code></div>
-            <div><svg><use href="#i-brush"/></svg><b>原地改</b><code>page_patch</code></div>
-            <div><svg><use href="#i-scan"/></svg><b>指纹重定位</b><code>fingerprint</code></div>
-            <div><svg><use href="#i-users"/></svg><b>团队评审</b><code>--share</code></div>
-          </div>
-        </header>
-
-        <div class="rv-board" data-reveal>
-          <div class="rv-site">
-            <div class="st-chrome"><span class="tl"><i></i><i></i><i></i></span><span class="st-url"><span class="lock">●</span> example.com/pricing</span><span class="st-tag rv">REVIEW</span></div>
-            <div class="rv-page">
-              <div class="rv-hero">
-                <h4 class="rv-patched"><s>Simple pricing for teams</s> <ins>按团队规模计费，用多少付多少</ins></h4>
-                <span class="rv-pin p1">1</span>
-                <p>Start free. Upgrade when you grow.</p>
-                <span class="rv-btn">Get started</span><span class="rv-pin p2">2</span>
-              </div>
-              <div class="rv-row"><i></i><i></i><i></i><span class="rv-pin p3 ok">3</span></div>
-            </div>
-          </div>
-
-          <div class="rv-thread">
-            <div class="rv-th-h"><span class="rv-num">1</span><b>建议</b><span class="dim">h4.hero-title</span></div>
-            <div class="rv-cmt"><span class="av" style="--h:262">林</span><div><b>林晓</b><span class="dim"> · 2 分钟前</span><p>标题太泛了，说清楚计费方式。</p></div></div>
-            <div class="rv-cmt bot"><span class="av"><svg><use href="#lg-claude"/></svg></span><div><b>Agent</b><span class="dim"> · page_patch</span><p>已改为「按团队规模计费」，可对比原版。</p></div></div>
-            <div class="rv-approve"><span class="ok">✓ 通过 · 2</span><span class="warn">需修改 · 1</span><span class="team"><i style="--h:262"></i><i style="--h:190"></i><i style="--h:30"></i> 3 位评审者</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ───────────── BENTO ───────────── -->
-    <section class="section tight">
-      <div class="wrap">
-        <div class="bento">
-          <article class="bx bx-ctrl" data-reveal>
-            <span class="bx-ic"><svg><use href="#i-hand"/></svg></span>
-            <h3>页面控制，默认关闭</h3>
-            <div class="ctrl-banner"><span class="lv-dot warn"></span>Agent 正在控制页面<span class="stop">停止</span></div>
-          </article>
-          <article class="bx bx-ask" data-reveal>
-            <span class="bx-ic"><svg><use href="#i-ask"/></svg></span>
-            <h3>Agent 会先问你</h3>
-            <div class="ask">
-              <p>导航放在左边还是顶部？</p>
-              <label><input type="radio" name="ask" checked> 左侧边栏</label>
-              <label><input type="radio" name="ask"> 顶部导航</label>
-            </div>
-          </article>
-          <article class="bx bx-hist" data-reveal>
-            <span class="bx-ic"><svg><use href="#i-clock"/></svg></span>
-            <h3>每轮都留痕</h3>
-            <div class="hist">
-              <span><i class="d1"></i>prompt</span>
-              <span><i class="d2"></i>tool · Edit</span>
-              <span><i class="d3"></i>result</span>
-            </div>
-            <code class="hist-f">events.jsonl</code>
-          </article>
-          <article class="bx bx-tools" data-reveal>
-            <span class="bx-ic"><svg><use href="#i-plug"/></svg></span>
-            <h3>为页面而生的 MCP 工具</h3>
-            <div class="tools">
-              <span>page_state</span><span>page_click</span><span>page_input</span><span>page_scroll</span>
-              <span class="a">write_artifact</span><span class="a">list_artifacts</span>
-              <span class="c">ask_question</span><span class="c">ask_form</span>
-              <span class="l">live_update</span><span class="l">live_patch_variants</span>
-              <span class="r">page_note</span><span class="r">reply_review</span><span class="r">page_patch</span>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ───────────── HOW ───────────── -->
-    <section class="section" id="how">
-      <div class="wrap">
-        <header class="sec-head center" data-reveal>
-          <span class="sec-n">§ 04 — 原理</span>
-          <h2>两个端口，<span class="mark">一条回路</span>。</h2>
-        </header>
-
-        <div class="arch" data-reveal>
-          <svg viewBox="0 0 1000 380" role="img" aria-label="架构示意：浏览器连接应用端口与控制端口，Agent CLI 改写项目，开发服务器热更新回到页面">
-            <g class="wires">
-              <path class="w" d="M172 190 C215 190 215 110 262 110"/>
-              <path class="w" d="M172 190 C215 190 215 270 262 270"/>
-              <path class="w" d="M492 110 L598 110"/>
-              <path class="w" d="M492 270 L598 270"/>
-              <path class="w" d="M798 270 C840 270 840 190 862 190"/>
-              <path class="w" d="M862 175 C830 175 830 110 798 110"/>
-            </g>
-            <g class="flow">
-              <path class="f f-a" d="M172 190 C215 190 215 110 262 110"/>
-              <path class="f f-c" d="M172 190 C215 190 215 270 262 270"/>
-              <path class="f f-a" d="M492 110 L598 110"/>
-              <path class="f f-c" d="M492 270 L598 270"/>
-              <path class="f f-c" d="M798 270 C840 270 840 190 862 190"/>
-              <path class="f f-h" d="M862 175 C830 175 830 110 798 110"/>
-            </g>
-
-            <g class="node">
-              <rect x="22" y="150" width="150" height="80" rx="16"/>
-              <use href="#i-globe" x="40" y="176" width="28" height="28" class="n-ic"/>
-              <text x="78" y="196" class="t1 l">浏览器</text>
-            </g>
-            <g class="node na">
-              <rect x="262" y="66" width="230" height="88" rx="16"/>
-              <text x="282" y="98" class="t0">:17990 · APP</text>
-              <text x="282" y="126" class="t1 l">代理 + 注入底栏</text>
-            </g>
-            <g class="node nc">
-              <rect x="262" y="226" width="230" height="88" rx="16"/>
-              <text x="282" y="258" class="t0">:17991 · CONTROL</text>
-              <text x="282" y="286" class="t1 l">面板 · API · MCP</text>
-            </g>
-            <g class="node">
-              <rect x="598" y="66" width="200" height="88" rx="16"/>
-              <text x="618" y="98" class="t0">DEV SERVER</text>
-              <text x="618" y="126" class="t1 l">Vite · Next …</text>
-            </g>
-            <g class="node ng">
-              <rect x="598" y="226" width="200" height="88" rx="16"/>
-              <text x="618" y="258" class="t0">AGENT CLI</text>
-              <use href="#lg-claude" x="618" y="270" width="22" height="22" class="n-claude"/>
-              <use href="#lg-openai" x="650" y="270" width="22" height="22" class="n-mono"/>
-              <use href="#lg-cursor" x="682" y="270" width="22" height="22" class="n-mono"/>
-            </g>
-            <g class="node">
-              <rect x="862" y="140" width="116" height="80" rx="16"/>
-              <use href="#i-folder" x="906" y="152" width="28" height="28" class="n-ic"/>
-              <text x="920" y="204" class="t2">项目</text>
-            </g>
-
-            <text x="830" y="135" class="lbl">HMR</text>
-            <text x="836" y="252" class="lbl">edit</text>
-            <text x="545" y="98" class="lbl" text-anchor="middle">proxy · ws</text>
-            <text x="545" y="258" class="lbl" text-anchor="middle">spawn · MCP</text>
-          </svg>
-        </div>
-
-        <div class="legend" data-reveal>
-          <span><i class="la"></i>页面流量</span>
-          <span><i class="lc"></i>控制与 Agent</span>
-          <span><i class="lh"></i>热更新</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ───────────── SECURITY ───────────── -->
-    <section class="section" id="security">
-      <div class="wrap">
-        <header class="sec-head center" data-reveal>
-          <span class="sec-n">§ 05 — 安全模型</span>
-          <h2>本地工具，<span class="mark">认真</span>设防。</h2>
-          <p>默认只监听 <code>127.0.0.1</code>，每个入口都有鉴权。</p>
-        </header>
-        <ul class="guards">
-          <li data-reveal><svg><use href="#i-split"/></svg><b>双源隔离</b><code>:17990 / :17991</code></li>
-          <li data-reveal><svg><use href="#i-cookie"/></svg><b>会话 Cookie</b><code>HttpOnly · Strict</code></li>
-          <li data-reveal><svg><use href="#i-shield"/></svg><b>来源校验</b><code>Origin · X-PH</code></li>
-          <li data-reveal><svg><use href="#i-key"/></svg><b>一次性 Token</b><code>每轮作废</code></li>
-          <li data-reveal><svg><use href="#i-globe"/></svg><b>Host 白名单</b><code>421</code></li>
-          <li data-reveal><svg><use href="#i-box"/></svg><b>沙箱产物</b><code>CSP sandbox</code></li>
-          <li data-reveal><svg><use href="#i-lock"/></svg><b>评审者隔离</b><code>HMAC · 403</code></li>
-          <li data-reveal><svg><use href="#i-folder"/></svg><b>只写一个目录</b><code>.page-harness/</code></li>
+        <ul class="ticks ticks-row">
+          <li data-reveal><b>引用到对话</b>带着上下文提问，Shift+点击直接引用</li>
+          <li data-reveal><b>评论</b>把意见钉在元素上，留给团队或 Agent</li>
+          <li data-reveal><b>Live 候选</b>让 Agent 直接写出几个改法</li>
         </ul>
       </div>
     </section>
 
-    <!-- ───────────── CTA ───────────── -->
-    <section class="cta">
-      <div class="wrap">
-        <h2 class="cta-title" data-reveal>现在就<br><span class="mark">接上</span>它。</h2>
-        <button class="cmd big" data-copy="npx page-harness http://localhost:5173 --project ./my-app --agent claude" type="button" data-reveal>
-          <span class="cmd-ps">$</span>
-          <code>npx page-harness <b>http://localhost:5173</b></code>
-          <span class="cmd-copy">复制</span>
-        </button>
-        <div class="req" data-reveal>
-          <span><svg class="r-node"><use href="#lg-node"/></svg>Node 20.11+</span>
-          <i></i>
-          <span class="req-agents">
-            <svg class="r-claude"><use href="#lg-claude"/></svg>
-            <svg><use href="#lg-openai"/></svg>
-            <svg><use href="#lg-cursor"/></svg>
-            任一已登录
-          </span>
+    <!-- LIVE -->
+    <section class="sec sec-live" id="live">
+      <div class="wrap center-head" data-reveal>
+        <p class="kicker"><svg><use href="#i-split"/></svg>Live 候选</p>
+        <h2>不是一个答案，<br>是几个可以挑的版本</h2>
+        <p class="lede">Agent 把 2–4 个候选直接写进你的源码，开发服务器热更新后就在页面上。原位切换、并排对比、调参数，满意哪个就采用哪个。</p>
+      </div>
+      <div class="wrap-wide live-stage" data-reveal>
+        <div class="shot shot-main"><img src="assets/c-compare.webp" width="2230" height="930" alt="原版与三个候选并排：渐变强调、大小对比、荧光标记" loading="lazy"></div>
+        <div class="shot shot-float"><img src="assets/c-design.webp" width="820" height="840" alt="设计候选面板" loading="lazy"></div>
+      </div>
+      <div class="wrap live-facts">
+        <div data-reveal>
+          <span class="fact-n">01</span>
+          <h3>真的写进源码</h3>
+          <p>候选包在一个临时容器里，你看到的就是代码真正渲染出来的样子。</p>
         </div>
-        <div class="cta-links" data-reveal>
-          <a href="https://www.npmjs.com/package/page-harness" target="_blank" rel="noopener"><svg class="r-npm"><use href="#lg-npm"/></svg>npm<svg class="ar"><use href="#i-arrow"/></svg></a>
-          <a href="https://www.npmjs.com/package/page-harness#readme" target="_blank" rel="noopener"><svg><use href="#lg-md"/></svg>文档<svg class="ar"><use href="#i-arrow"/></svg></a>
-          <a href="https://github.com/cocofhu/page-harness-site" target="_blank" rel="noopener"><svg><use href="#lg-github"/></svg>站点源码<svg class="ar"><use href="#i-arrow"/></svg></a>
+        <div data-reveal>
+          <span class="fact-n">02</span>
+          <h3>原位或并排</h3>
+          <p>在原来的位置逐个切换，或者全部摊开对比；还能接着细化某一个。</p>
+        </div>
+        <div data-reveal>
+          <span class="fact-n">03</span>
+          <h3>采用即收尾</h3>
+          <p>保留选中的版本，其余和标记一并清除。留下残余时会提醒，也可以用 git 钩子拦住。</p>
+        </div>
+      </div>
+      <div class="wrap">
+        <pre class="code" data-reveal><code><span class="c">&lt;!-- Live 进行中，源码里是这样的 --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-ph-live</span>=<span class="s">"L1a2b3c4"</span> <span class="a">style</span>=<span class="s">"display:contents"</span><span class="t">&gt;</span>
+  <span class="t">&lt;h1</span> <span class="a">data-ph-variant</span>=<span class="s">"0"</span> <span class="a">hidden</span><span class="t">&gt;</span>会议结束，纪要已经写好<span class="t">&lt;/h1&gt;</span>
+  <span class="t">&lt;h1</span> <span class="a">data-ph-variant</span>=<span class="s">"3"</span> <span class="a">data-ph-variant-label</span>=<span class="s">"荧光标记"</span><span class="t">&gt;</span>…<span class="t">&lt;/h1&gt;</span>
+<span class="t">&lt;/div&gt;</span></code></pre>
+      </div>
+    </section>
+
+    <!-- REVIEW -->
+    <section class="sec" id="review">
+      <div class="wrap split split-rev">
+        <div class="copy" data-reveal>
+          <p class="kicker"><svg><use href="#i-pin"/></svg>评审</p>
+          <h2>意见钉在页面上，<br>Agent 逐条回复</h2>
+          <p class="lede">在元素上留评论、改文字和样式。队友用 <code>--share</code> 链接从局域网加入，Agent 读完意见，回复、修改、标记解决。</p>
+          <ul class="ticks">
+            <li><b>没有源码也能用</b>对线上站点自动进入评审模式</li>
+            <li><b>改版后仍能找到</b>选择器失效时按指纹重新定位</li>
+            <li><b>一键导出</b>意见、改动和结论汇总成报告</li>
+          </ul>
+        </div>
+        <div class="shot shot-tint shot-pins" data-reveal>
+          <img src="assets/c-pins.webp" width="928" height="1214" alt="定价卡片上的两个评论图钉，展开的线程里有 Agent 的回复" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAT + ARTIFACTS -->
+    <section class="sec sec-pair">
+      <div class="wrap pair">
+        <article class="tile" data-reveal>
+          <div class="tile-copy">
+            <p class="kicker"><svg><use href="#i-ask"/></svg>对话</p>
+            <h3>一个会说清楚自己在做什么的窗口</h3>
+            <p>流式回复、工具卡片、改动文件列表、附件和排队消息。每个会话可以用不同的 Agent 和模型。</p>
+          </div>
+          <div class="tile-shot tile-shot-chat"><img src="assets/c-chat.webp" width="888" height="1364" alt="对话窗口：Agent 解释三个方案，下方是可切换的 Live 卡片" loading="lazy"></div>
+        </article>
+        <article class="tile" data-reveal>
+          <div class="tile-copy">
+            <p class="kicker"><svg><use href="#i-box"/></svg>产物</p>
+            <h3>报告和原型，不再埋在聊天记录里</h3>
+            <p>Agent 写出的 Markdown、HTML 原型、JSON 和图片都有版本，可预览、下载，或导出 PNG / PDF。</p>
+          </div>
+          <div class="tile-shot"><img src="assets/c-artifact.webp" width="1848" height="1288" alt="产物窗口里打开的定价区评审报告" loading="lazy"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- AGENTS -->
+    <section class="sec" id="agents">
+      <div class="wrap center-head" data-reveal>
+        <p class="kicker"><svg><use href="#i-plug"/></svg>Agent</p>
+        <h2>用你已经登录的那个</h2>
+        <p class="lede">不需要 API Key，也不用新账号。page-harness 调用本机现成的命令行工具，自动识别装了哪些。</p>
+      </div>
+      <div class="wrap agents">
+        <div class="agent" data-reveal>
+          <span class="agent-logo a-claude"><svg><use href="#lg-claude"/></svg></span>
+          <h3>Claude Code</h3>
+          <code>claude -p</code>
+        </div>
+        <div class="agent" data-reveal>
+          <span class="agent-logo a-codex"><svg><use href="#lg-openai"/></svg></span>
+          <h3>Codex</h3>
+          <code>codex app-server</code>
+        </div>
+        <div class="agent" data-reveal>
+          <span class="agent-logo a-cursor"><svg><use href="#lg-cursor"/></svg></span>
+          <h3>Cursor Agent</h3>
+          <code>cursor-agent -p</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW -->
+    <section class="sec sec-how" id="how">
+      <div class="wrap center-head" data-reveal>
+        <p class="kicker"><svg><use href="#i-scan"/></svg>原理</p>
+        <h2>一个本地代理，两个端口</h2>
+        <p class="lede">不改你的项目，也不需要沙箱。HMR 和 WebSocket 照常工作。</p>
+      </div>
+      <div class="wrap flow" data-reveal>
+        <div class="node">
+          <span class="node-ic"><svg><use href="#i-globe"/></svg></span>
+          <b>浏览器</b><small>你的页面 + 底栏</small>
+        </div>
+        <div class="edge"><span>:17990</span></div>
+        <div class="node node-accent">
+          <span class="node-ic"><svg><use href="#i-shield"/></svg></span>
+          <b>page-harness</b><small>反向代理，注入底栏</small>
+        </div>
+        <div class="edge"><span>proxy</span></div>
+        <div class="node">
+          <span class="node-ic"><svg><use href="#i-folder"/></svg></span>
+          <b>你的开发服务器</b><small>Vite · Next.js · webpack</small>
+        </div>
+        <div class="flow-down">
+          <div class="edge edge-v"><span>:17991 · MCP</span></div>
+          <div class="node">
+            <span class="node-ic node-logos"><svg class="c-claude"><use href="#lg-claude"/></svg><svg><use href="#lg-openai"/></svg><svg><use href="#lg-cursor"/></svg></span>
+            <b>Agent CLI</b><small>每轮启动，续接同一会话</small>
+          </div>
+        </div>
+      </div>
+      <ul class="wrap guards">
+        <li data-reveal><svg><use href="#i-lock"/></svg><b>只监听本机</b>默认绑定 127.0.0.1</li>
+        <li data-reveal><svg><use href="#i-split"/></svg><b>两个源隔离</b>页面脚本读不到控制端口</li>
+        <li data-reveal><svg><use href="#i-folder"/></svg><b>不弄脏项目</b>只写入自带 .gitignore 的 .page-harness/</li>
+        <li data-reveal><svg><use href="#i-hand"/></svg><b>页面控制默认关闭</b>开启时有横幅提示，随时收回</li>
+      </ul>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="start">
+      <div class="wrap cta-in" data-reveal>
+        <h2>三十秒，接上你的页面</h2>
+        <button class="cmd cmd-lg" type="button" data-copy="npx page-harness http://localhost:5173 --project ./my-app">
+          <span class="cmd-ps">$</span><code>npx page-harness <b>localhost:5173</b> --project ./my-app</code><span class="cmd-copy">复制</span>
+        </button>
+        <p class="req"><svg><use href="#lg-node"/></svg>Node.js 20.11+<span class="dot"></span>任意一个已登录的 Agent CLI<span class="dot"></span>打开 127.0.0.1:17990</p>
+        <div class="cta-links">
+          <a class="btn btn-dark" href="https://www.npmjs.com/package/page-harness" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#lg-npm"/></svg>在 npm 查看</a>
+          <a class="btn btn-ghost" href="https://www.npmjs.com/package/page-harness#readme" target="_blank" rel="noopener">阅读文档</a>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="foot" data-ph-skip>
+  <footer class="foot">
     <div class="wrap foot-in">
-      <span class="foot-brand">
-        <a class="wordmark sm" href="#top" aria-label="Page Harness"><span class="wm-c" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="wm-t">Page<b></b>Harness</span></a>
-        <span class="dim">MIT License</span>
-      </span>
-      <span class="dim">本页底栏为脚本化演示，不连接任何 Agent。</span>
+      <a class="wordmark sm" href="#top" aria-label="Page Harness">
+        <span class="wm-c" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="wm-t">Page<b></b>Harness</span>
+      </a>
+      <span>MIT License</span>
+      <a href="https://github.com/cocofhu/page-harness-site" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#lg-github"/></svg>站点源码</a>
     </div>
   </footer>
 
-  <!-- ───────────── DEMO HARNESS (fake overlay) ───────────── -->
-  <div id="ph" data-ph-skip>
-    <div class="ph-hl" id="phHl" hidden><span class="ph-hl-tag"></span></div>
-    <div class="ph-pop" id="phPop" hidden></div>
-    <div class="ph-banner" id="phBanner" hidden><span class="lv-dot"></span>取点模式 · 移动鼠标选择元素 · <kbd>Esc</kbd> 退出</div>
-
-    <div class="ph-livebar" id="phLive" hidden>
-      <span class="lv-dot"></span><b>LIVE</b>
-      <span class="ph-live-sel mono"></span>
-      <span class="ph-live-body"></span>
-    </div>
-
-    <section class="ph-panel ph-chat" id="phChat" hidden aria-label="对话">
-      <header class="ph-ph">
-        <b>对话</b><span class="chip"><svg class="c-claude"><use href="#lg-claude"/></svg>demo-agent</span>
-        <span class="spacer"></span>
-        <button type="button" class="ph-x" data-close="chat" aria-label="关闭">✕</button>
-      </header>
-      <div class="ph-msgs" id="phMsgs">
-        <div class="ph-m ai">你好，我是演示用的脚本化 Agent。回复是写好的，但改动会真实发生在这个页面上。</div>
-      </div>
-      <div class="ph-sugs" id="phSugs">
-        <button type="button" data-say="把强调色换成青色">把强调色换成青色</button>
-        <button type="button" data-say="给主标题出几个 Live 候选">给主标题出几个 Live 候选</button>
-        <button type="button" data-say="写一份页面评审报告到产物">写一份评审报告到产物</button>
-      </div>
-      <form class="ph-composer" id="phForm">
-        <div class="ph-refs" id="phRefs"></div>
-        <textarea id="phInput" rows="2" placeholder="描述你想要的改动…（Enter 发送）"></textarea>
-        <button type="submit" class="ph-send" aria-label="发送">↑</button>
-      </form>
-    </section>
-
-    <section class="ph-panel ph-art" id="phArt" hidden aria-label="产物">
-      <header class="ph-ph">
-        <b>产物</b>
-        <div class="ph-tabs" id="phTabs"></div>
-        <span class="spacer"></span>
-        <button type="button" class="ph-x" data-close="art" aria-label="关闭">✕</button>
-      </header>
-      <div class="ph-art-body md" id="phArtBody"></div>
-      <footer class="ph-art-foot">
-        <span class="mono dim" id="phArtMeta"></span>
-        <span class="spacer"></span>
-        <button type="button" class="ph-btn" id="phArtCopy">复制</button>
-        <button type="button" class="ph-btn" id="phArtDl">下载</button>
-      </footer>
-    </section>
-
-    <div class="ph-dock" id="phDock" role="toolbar" aria-label="Page Harness 底栏">
-      <button type="button" data-dock="pick"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3H3v3M14 3h3v3M6 17H3v-3M14 17h3v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="10" r="2.4" fill="currentColor"/></svg><span>取点</span></button>
-      <button type="button" data-dock="art"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7 8h6M7 11h6M7 14h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>产物</span><b class="ph-badge" id="phArtBadge" hidden>0</b></button>
-      <button type="button" data-dock="chat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 016.5 3h7A2.5 2.5 0 0116 5.5v5a2.5 2.5 0 01-2.5 2.5H9l-4 3.5V13a2.5 2.5 0 01-1-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>对话</span></button>
-    </div>
-    <div class="ph-toast" id="phToast" role="status" aria-live="polite"></div>
-  </div>
-
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js"></script>
 </body>
 </html>
