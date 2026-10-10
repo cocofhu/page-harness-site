@@ -104,11 +104,12 @@ function build(){const t=T[L],h=t.hero,c=t.cta;
   <div class="cl"><a class="f" href="https://www.npmjs.com/package/page-harness" target="_blank" rel="noopener">${NPM}${c.npm}<small>npmjs.com/package/page-harness</small></a><a href="https://github.com/cocofhu/page-harness-coco" target="_blank" rel="noopener">${GH}${c.gh}<small>cocofhu/page-harness-coco</small><em class="priv">${LOCK}${c.priv}</em></a></div></div>
   <div class="ags">${[['claude','Claude Code'],['codex','Codex'],['cursor','Cursor CLI'],['codebuddy','CodeBuddy Code'],['opencode','OpenCode']].map(([k,n])=>`<span>${ai(k)}${n}</span>`).join('')}</div>
   <div class="foot"><span class="fl">${LOGO16}page-harness <i>v0.1.1</i></span><span>${c.lic}</span><span>localhost:17990 · localhost:17991</span></div></div></section>
- <div class="wipe" data-k="wipe"><span data-k="wl"></span></div>`;
+ <div class="wipe" data-k="wipe"><span data-k="wl"></span></div>
+ <div class="pg" data-k="pg" aria-hidden="true"><span class="n"><b data-k="pgn">01</b> / 05</span><span class="dt">${BEATS.map((b,i)=>`<i class="${i&&BEATS[i-1][0]!==b[0]?'gap':''}"></i>`).join('')}</span></div>`;
  // index elements
  K={};cv.querySelectorAll('[data-k]').forEach(e=>{});
  SC=[...cv.querySelectorAll('section.sc')].map(s=>{const m={root:s};s.querySelectorAll('[data-k]').forEach(e=>{if(!m[e.dataset.k])m[e.dataset.k]=e});return m});
- G={wipe:cv.querySelector('[data-k=wipe]'),wl:cv.querySelector('[data-k=wl]'),nl:[0,1,2,3].map(i=>cv.querySelector(`[data-k=nl${i}]`))};
+ G={wipe:cv.querySelector('[data-k=wipe]'),wl:cv.querySelector('[data-k=wl]'),nl:[0,1,2,3].map(i=>cv.querySelector(`[data-k=nl${i}]`)),pg:{el:cv.querySelector('[data-k=pg]'),num:cv.querySelector('[data-k=pgn]'),dots:[...cv.querySelectorAll('.pg .dt i')]}};
  cv.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();go(+a.dataset.go)}));
  cv.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>{L=b.dataset.l;localStorage.setItem('ph-lang',L);const u=new URL(location);u.searchParams.set('lang',L);history.replaceState(null,'',u);boot()}));
  cv.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{navigator.clipboard&&navigator.clipboard.writeText(b.dataset.copy);const o=b.textContent;b.textContent=c.copied;b.classList.add('ok');setTimeout(()=>{b.textContent=o;b.classList.remove('ok')},1400)}));
@@ -118,7 +119,37 @@ let K,SC,G,M=[];
 const LEN=[3.4,4.2,4.6,3.6,1.0],TR=.8;
 const START=[];{let u=0;LEN.forEach((l,i)=>{START.push(u);u+=l+(i<LEN.length-1?TR:0)})}
 const TOTAL=START[4]+LEN[4];
-function go(i){scrollTo({top:(START[i]+(i?0.02:0))*innerHeight,behavior:'smooth'})}
+/* ---------- segment playback: one gesture = one beat, time-based ---------- */
+// beat stops in scene-local progress; each beat plays from the previous stop to this one
+const BEATS=[[0,.62,'boot'],[0,1,'dock'],[1,.40,'pick'],[1,.72,'chat'],[1,1,'hmr'],[2,.30,'share'],[2,.57,'comment'],[2,.73,'resolve'],[2,1,'approve'],[3,.33,'menu'],[3,1,'codex'],[4,.02,'install']];
+const STOPS=[0,...BEATS.map(([i,p])=>START[i]+p*LEN[i])];
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+let U=0,anim=null,lastIn=0;
+const dur=(a,b,back)=>RM.matches?0:Math.min(4000,Math.max(1500,Math.abs(b-a)*1100))*(back?.55:1);
+function stopIdx(u){let k=0;STOPS.forEach((s,i)=>{if(u>=s-1e-4)k=i});return k}
+function play(to,ms,ease){if(anim)cancelAnimationFrame(anim.raf);const from=U;
+ if(!ms){U=to;anim=null;render();return}
+ const t0=performance.now();anim={to};
+ const tick=now=>{const k=Math.min(1,(now-t0)/ms);U=lerp(from,to,ease?E(k):k);render();if(k<1)anim.raf=requestAnimationFrame(tick);else{anim=null;U=to;render()}};
+ anim.raf=requestAnimationFrame(tick)}
+function next(){if(anim)return;const i=STOPS.findIndex(s=>s>U+1e-4);if(i<0)return;play(STOPS[i],dur(U,STOPS[i]))}
+function prev(){if(anim)return;let i=-1;STOPS.forEach((s,k)=>{if(s<U-1e-4)i=k});if(i<0)return;play(STOPS[i],dur(U,STOPS[i],true))}
+function go(i){if(anim){cancelAnimationFrame(anim.raf);anim=null}
+ const to=i?START[i]+.02:0,cv=document.getElementById('cv');
+ if(RM.matches||Math.abs(to-U)<1e-3){U=to;render();return}
+ cv.style.transition='opacity .18s var(--ease)';cv.style.opacity=0;anim={to};
+ setTimeout(()=>{U=to;anim=null;render();cv.style.opacity=1;setTimeout(()=>{cv.style.transition=''},200)},180)}
+function gesture(dir){const now=performance.now(),quiet=now-lastIn>220;lastIn=now;if(!quiet||anim)return;dir>0?next():prev()}
+addEventListener('wheel',e=>{e.preventDefault();const d=Math.abs(e.deltaY)>=Math.abs(e.deltaX)?e.deltaY:e.deltaX;if(Math.abs(d)<2){lastIn=performance.now();return}gesture(d)},{passive:false});
+addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;let d=0;
+ if(k==='ArrowDown'||k==='ArrowRight'||k==='PageDown'||(k===' '&&!e.shiftKey))d=1;else if(k==='ArrowUp'||k==='ArrowLeft'||k==='PageUp'||(k===' '&&e.shiftKey))d=-1;
+ else if(k==='Home'){e.preventDefault();go(0);return}else if(k==='End'){e.preventDefault();go(4);return}
+ if(!d)return;e.preventDefault();if(e.repeat)return;d>0?next():prev()});
+let ty=null;addEventListener('touchstart',e=>{ty=e.touches[0].clientY},{passive:true});
+addEventListener('touchmove',e=>{if(e.cancelable)e.preventDefault()},{passive:false});
+addEventListener('touchend',e=>{if(ty===null)return;const dy=ty-e.changedTouches[0].clientY;ty=null;if(Math.abs(dy)>36&&!anim)dy>0?next():prev()});
+function progress(){const pg=G.pg;if(!pg)return;const k=stopIdx(U);let st=0;START.forEach((v,i)=>{if(U>=v-TR*.5)st=i});pg.num.textContent=String(st+1).padStart(2,'0');on(pg.el,'end',st===4);
+ pg.dots.forEach((d,i)=>{on(d,'on',i+1<=k);on(d,'cur',i+1===k)})}
 /* ---------- layout poses (canvas coords) ---------- */
 const STEP={x:504,y:168,s:.96},BW=920,BH=600;
 const pose=(el,x,y,s,o)=>{el.style.transform=`translate(${x}px,${y}px) scale(${s})`;if(o!==undefined)el.style.opacity=o};
@@ -222,8 +253,8 @@ function brackets(m,q){const b=m.root.querySelectorAll('.br i');const d=lerp(18,
 /* ---------- frame ---------- */
 let scale=1,need=true,lastU=-1;
 function fit(){const w=innerWidth,h=innerHeight;scale=Math.min(w/1440,h/900);const cv=document.getElementById('cv');cv.style.transform=`translate(${(w-1440*scale)/2}px,${(h-900*scale)/2}px) scale(${scale})`;
- document.getElementById('spacer').style.height=(TOTAL+1)*innerHeight+'px'}
-function frame(){need=false;const u=scrollY/innerHeight;if(u===lastU)return;lastU=u;
+ document.getElementById('spacer').style.height='0px'}
+function frame(){need=false;const u=U;if(u===lastU)return;lastU=u;progress();
  let cur=0;
  SC.forEach((m,i)=>{const st=START[i],en=st+LEN[i];
   const vis=u>=st-TR-1e-6&&u<=en+TR+1e-6||(i===0&&u<=en+TR);
@@ -242,11 +273,12 @@ function frame(){need=false;const u=scrollY/innerHeight;if(u===lastU)return;last
  G.nl.forEach((a,i)=>on(a,'on',i===Math.min(cur,3)&&cur<4));
 }
 function req(){if(!need){need=true;requestAnimationFrame(frame)}}
+function render(){need=false;frame()}
 function boot(){build();fit();lastU=-1;
  // measure with no transforms on the browsers
  SC.forEach(m=>{if(m.bw)m.bw.style.transform='none'});measure();frame()}
-addEventListener('scroll',req,{passive:true});addEventListener('resize',()=>{fit();lastU=-1;req()});
+addEventListener('resize',()=>{fit();lastU=-1;req()});
 document.fonts&&document.fonts.ready.then(()=>{measure();lastU=-1;req()});
-window.PH={boot,start:START,total:TOTAL,len:LEN};
+window.PH={boot,start:START,total:TOTAL,len:LEN,stops:STOPS,beats:BEATS.map(b=>b[2]),next,prev,go,get u(){return U},get beat(){return stopIdx(U)},get playing(){return !!anim}};
 boot();
 })();

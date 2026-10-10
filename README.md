@@ -11,7 +11,7 @@ python3 -m http.server 8000
 
 ## How the page works
 
-The page is one continuous, scroll-driven take: a fixed stage (`#fix`) is redrawn from scroll progress, so there are no separate sections or cuts, and scrolling back up plays everything in reverse. It walks through five steps:
+The page is one continuous take on a fixed stage (`#fix`), played in segments: each scroll gesture (wheel, trackpad, arrow keys / Space / PageDown, or a swipe on touch screens) plays one whole beat on a time-based timeline, and input is ignored while a beat plays (trackpad inertia included). Scrolling up rewinds the previous beat. Clicking a nav item jumps to the start of that step, Home / End jump to the start / install. With `prefers-reduced-motion`, beats jump instantly. A small `02 / 05` counter with one dot per beat shows where you are. The 12 beats cover five steps:
 
 1. `npx page-harness` starts the harness in front of a running dev server
 2. Pick an element on the page and chat with the agent about what to change
@@ -26,7 +26,7 @@ Copy is available in Chinese and English. Use the 中 / EN toggle in the nav, or
 - `index.html`: page shell and meta tags
 - `site/site.css`: styles
 - `site/content.js`: all copy (zh / en)
-- `site/flow.js`: scroll timeline and scene rendering
+- `site/flow.js`: beat timeline, input handling and scene rendering
 - `site/logo/`: page-harness logo and favicons (original work for this project)
 - `site/icons/`: third-party brand marks, with sources in `site/icons/SOURCES.md`
 - `favicon.ico`: fallback favicon
