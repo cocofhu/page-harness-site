@@ -43,6 +43,13 @@
       <symbol id="i-ask" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 3.5V17A2.5 2.5 0 0 1 4 14.5z"/><path d="M10 8.8a2 2 0 1 1 2.6 1.9c-.4.2-.6.5-.6 1v.3M12 14h0"/></g></symbol>
       <symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6"/><path d="M3.5 4v4h4M12 7.5V12l3 2"/></g></symbol>
       <symbol id="i-plug" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v4M15 3v4M6.5 7h11v3.5a5.5 5.5 0 0 1-11 0zM12 16v5"/></g></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z" fill="currentColor"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 14l2 2 4-4" stroke-linecap="round"/></g></symbol>
+    <symbol id="i-broom" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l-4 8"/><path d="M6 13h8l2 7H4z"/><path d="M8 16v4M12 16v4"/></g></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></g></symbol>
+    <symbol id="i-cursor" viewBox="0 0 24 24"><path d="M5 3l14 7-6 2-2 6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
   </svg>
 
   <header class="nav">
@@ -64,10 +71,10 @@
 
         <!-- opening title -->
         <div class="opening" id="opening">
-          <p class="op-pill"><span>开源</span>MIT · 全部在本机运行</p>
+          <p class="op-pill"><span>MIT</span>本机运行</p>
           <h1 class="op-title">指着<span class="op-word" id="opWord">页面<i>h1 · picked</i></span>，<br>让 Agent 改代码</h1>
           <div class="op-row">
-            <span class="op-scroll"><i></i>向下滚动</span>
+            <span class="op-scroll"><i></i></span>
             <span class="op-logos" aria-label="Claude Code、Codex、Cursor Agent">
               <svg class="c-claude"><use href="#lg-claude"/></svg><svg><use href="#lg-openai"/></svg><svg><use href="#lg-cursor"/></svg>
             </span>
@@ -94,10 +101,10 @@
                   <div class="h1wrap">
                     <h2 class="a-h1" id="h1" data-pick="h1" data-tag="h1.hero-title" data-v="0"><span class="a">会议结束，</span><b class="k">纪要</b><b class="m">已经写好</b></h2>
                     <div class="cands" id="cands" aria-hidden="true">
-                      <div class="cand"><h2 class="a-h1" data-v="0"><span class="a">会议结束，</span><b class="k">纪要</b><b class="m">已经写好</b></h2><em>原版</em></div>
-                      <div class="cand"><h2 class="a-h1" data-v="1"><span class="a">会议结束，</span><b class="k">纪要</b><b class="m">已经写好</b></h2><em>1 · 渐变强调</em></div>
-                      <div class="cand"><h2 class="a-h1" data-v="2"><span class="a">会议结束，</span><b class="k">纪要</b><b class="m">已经写好</b></h2><em>2 · 大小对比</em></div>
-                      <div class="cand"><h2 class="a-h1" data-v="3"><span class="a">会议结束，</span><b class="k">纪要</b><b class="m">已经写好</b></h2><em>3 · 荧光标记</em></div>
+                      <div class="cand"><h2 class="a-h1" data-v="0"><span class="a">会议结束，</span><b class="k">纪要</b><b class="m">已经写好</b></h2><em>0</em></div>
+                      <div class="cand"><h2 class="a-h1" data-v="1"><span class="a">会议结束，</span><b class="k">纪要</b><b class="m">已经写好</b></h2><em>1</em></div>
+                      <div class="cand"><h2 class="a-h1" data-v="2"><span class="a">会议结束，</span><b class="k">纪要</b><b class="m">已经写好</b></h2><em>2</em></div>
+                      <div class="cand"><h2 class="a-h1" data-v="3"><span class="a">会议结束，</span><b class="k">纪要</b><b class="m">已经写好</b></h2><em>3</em></div>
                     </div>
                   </div>
                   <div class="below" id="below">
@@ -121,51 +128,49 @@
               <!-- harness overlay -->
               <div class="ov" id="ov">
                 <div class="pop" id="pop">
-                  <button type="button" data-act="quote">引用到对话</button>
-                  <button type="button" data-act="comment">评论</button>
-                  <button type="button" class="hi" data-act="live" id="popLive">Live 候选</button>
+                  <button type="button" data-act="quote" aria-label="引用到对话"><svg><use href="#i-ask"/></svg></button>
+                  <button type="button" data-act="comment" aria-label="评论"><svg><use href="#i-pin"/></svg></button>
+                  <button type="button" class="hi" data-act="live" id="popLive"><svg><use href="#i-spark"/></svg>Live</button>
                 </div>
 
-                <div class="design" id="design">
-                  <div class="d-head"><b>设计候选</b><span>×</span></div>
-                  <div class="d-target"><code>&lt;h1&gt;</code> 会议结束，纪要已经写好</div>
-                  <div class="d-chips"><span>加粗</span><span class="on">润色</span><span>配色</span><span>排版</span></div>
-                  <div class="d-input"><span id="typed"></span><i class="caret"></i></div>
-                  <div class="d-row"><span>数量</span><span class="seg"><i>2</i><i class="on">3</i><i>4</i></span></div>
-                  <button type="button" class="d-go" id="designGo">生成候选</button>
+                <div class="prompt" id="design">
+                  <svg class="pr-ic"><use href="#i-spark"/></svg>
+                  <span class="pr-text"><span id="typed"></span><i class="caret"></i></span>
+                  <span class="pr-n"><i></i><i></i><i></i></span>
+                  <button type="button" class="pr-go" id="designGo" aria-label="生成"><svg><use href="#i-send"/></svg></button>
                 </div>
 
                 <div class="work" id="work">
-                  <svg><use href="#lg-cursor"/></svg>
-                  <span>Cursor Agent 正在写入候选</span>
-                  <span class="work-dots"><i></i><i></i><i></i></span>
+                  <span class="w-logo"><svg><use href="#lg-cursor"/></svg></span>
+                  <span class="w-slots"><i></i><i></i><i></i></span>
                 </div>
 
                 <div class="ctrl" id="ctrl">
-                  <button type="button" data-c="prev">‹</button>
-                  <span class="ctrl-idx" id="ctrlIdx">1/3</span>
-                  <button type="button" data-c="next" id="ctrlNext">›</button>
-                  <b class="ctrl-label" id="ctrlLabel">渐变强调</b>
-                  <button type="button" data-c="compare" id="ctrlCompare">并排对比</button>
-                  <button type="button" data-c="discard">放弃</button>
-                  <button type="button" data-c="accept" class="hi" id="ctrlAccept">采用</button>
+                  <button type="button" data-c="prev" aria-label="上一个">‹</button>
+                  <span class="ctrl-dots" id="ctrlDots"></span>
+                  <button type="button" data-c="next" id="ctrlNext" aria-label="下一个">›</button>
+                  <span class="ctrl-sep"></span>
+                  <button type="button" data-c="compare" id="ctrlCompare" aria-label="并排对比"><svg><use href="#i-split"/></svg></button>
+                  <button type="button" data-c="discard" aria-label="放弃"><svg><use href="#i-x"/></svg></button>
+                  <button type="button" data-c="accept" class="hi" id="ctrlAccept" aria-label="采用"><svg><use href="#i-check"/></svg></button>
                 </div>
 
                 <span class="pin" id="pin1">1</span>
                 <span class="pin" id="pin2">2</span>
                 <div class="thread" id="thread">
-                  <div class="t-msg"><span class="av">林</span><div><b>林晓</b><p>专业版价格不够显眼，和免费版几乎一样大</p></div></div>
-                  <div class="t-msg t-agent"><span class="av"><svg><use href="#lg-cursor"/></svg></span><div><b>Agent</b><p id="reply"></p></div></div>
-                  <div class="t-done" id="tDone"><svg><use href="#i-check"/></svg>已解决</div>
+                  <div class="t-msg"><span class="av">林</span><div class="t-bub"><span class="t-q">¥49<svg><use href="#i-arrow"/></svg></span><i style="width:70%"></i><i style="width:45%"></i></div></div>
+                  <div class="t-msg t-agent"><span class="av"><svg><use href="#lg-cursor"/></svg></span><div class="t-bub"><span class="typing" id="typing"><i></i><i></i><i></i></span><i class="sk" id="sk1" style="width:85%"></i><i class="sk" id="sk2" style="width:60%"></i></div></div>
+                  <span class="t-done" id="tDone"><svg><use href="#i-check"/></svg></span>
                 </div>
 
                 <div class="bubble" id="bubble">
-                  <textarea id="bubbleText" rows="2" placeholder="写下你的意见…"></textarea>
-                  <div><button type="button" id="bubbleCancel">取消</button><button type="button" class="hi" id="bubbleSave">保存</button></div>
+                  <textarea id="bubbleText" rows="2" placeholder="意见…"></textarea>
+                  <div><button type="button" id="bubbleCancel" aria-label="取消"><svg><use href="#i-x"/></svg></button><button type="button" class="hi" id="bubbleSave" aria-label="保存"><svg><use href="#i-check"/></svg></button></div>
                 </div>
 
+                <span class="hint" id="hint"><svg><use href="#i-hand"/></svg></span>
                 <div class="dock" id="dock">
-                  <button type="button" data-d="pick" id="dockPick"><svg viewBox="0 0 24 24"><path d="M5 3l14 7-6 2-2 6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>取点</button>
+                  <button type="button" data-d="pick" id="dockPick"><svg><use href="#i-cursor"/></svg>取点</button>
                   <button type="button" data-d="notes"><svg><use href="#i-pin"/></svg>意见<em id="noteCount">0</em></button>
                   <button type="button" data-d="art"><svg><use href="#i-box"/></svg>产物</button>
                   <button type="button" data-d="chat"><svg><use href="#i-ask"/></svg>对话</button>
@@ -178,13 +183,18 @@
 
         <!-- source diff -->
         <div class="code" id="code">
-          <div class="code-bar"><span class="tl"><i></i><i></i><i></i></span><span>src/index.html</span></div>
-          <pre><span class="ln" data-at=".585"><i>41</i>  &lt;section class="hero"&gt;</span><span class="ln del" data-at=".595"><i>42</i>-   &lt;h1&gt;会议结束，纪要已经写好&lt;/h1&gt;</span><span class="ln add" data-at=".605"><i>42</i>+   &lt;h1&gt;会议结束，纪要<u>&lt;mark&gt;</u>已经写好<u>&lt;/mark&gt;</u>&lt;/h1&gt;</span><span class="ln" data-at=".585"><i>43</i>    &lt;p class="hero-sub"&gt;…&lt;/p&gt;</span></pre>
-          <ul class="code-ok">
-            <li data-at=".612"><svg><use href="#i-check"/></svg>已写入源码</li>
-            <li data-at=".62"><svg><use href="#i-check"/></svg>候选标记已清理</li>
-            <li data-at=".628"><svg><use href="#i-check"/></svg>HMR 已刷新</li>
-          </ul>
+          <div class="code-bar"><span class="tl"><i></i><i></i><i></i></span><span>index.html</span></div>
+          <div class="cl" data-at=".572"><i style="width:38%"></i></div>
+          <div class="cl in" data-at=".576"><i style="width:56%"></i></div>
+          <div class="cl del" data-at=".585"><b>−</b><i style="width:30%"></i><i style="width:34%"></i></div>
+          <div class="cl add" data-at=".596"><b>+</b><i style="width:30%"></i><i class="mk" style="width:26%"></i></div>
+          <div class="cl in" data-at=".576"><i style="width:62%"></i></div>
+          <div class="cl" data-at=".572"><i style="width:28%"></i></div>
+          <div class="code-ok">
+            <span data-at=".606"><svg><use href="#i-file"/></svg></span>
+            <span data-at=".614"><svg><use href="#i-broom"/></svg></span>
+            <span data-at=".622"><svg><use href="#i-refresh"/></svg></span>
+          </div>
         </div>
 
         <!-- architecture -->
@@ -206,10 +216,9 @@
         <div class="node n-agent" id="nA1" style="top:640px"><span class="n-ic a-claude"><svg><use href="#lg-claude"/></svg></span><b>Claude Code</b></div>
         <div class="node n-agent" id="nA2" style="top:860px"><span class="n-ic a-codex"><svg><use href="#lg-openai"/></svg></span><b>Codex</b></div>
         <div class="node n-agent" id="nA3" style="top:1080px"><span class="n-ic a-cursor"><svg><use href="#lg-cursor"/></svg></span><b>Cursor Agent</b></div>
-        <div class="node n-dev" id="nDev"><span class="n-ic"><svg><use href="#i-folder"/></svg></span><b>你的开发服务器</b><small>Vite · Next.js · webpack</small></div>
+        <div class="node n-dev" id="nDev"><span class="n-ic"><svg><use href="#i-folder"/></svg></span><b>localhost:5173</b></div>
         <span class="wire-tag" id="tagMcp">MCP</span>
-        <span class="wire-tag" id="tagProxy">代理</span>
-        <div class="port-chip" id="portChip"><i></i>page-harness<span>:17990 页面 · :17991 控制</span></div>
+        <div class="port-chip" id="portChip"><i></i>page-harness</div>
 
         <!-- finale -->
         <div class="finale" id="finale">
@@ -224,12 +233,7 @@
         <div class="cursor" id="cursor"><svg viewBox="0 0 24 24"><path d="M4 2.5l15 8.2-6.6 1.6-3 6.4z" fill="#0b0b0f" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="ring"></span></div>
       </div>
 
-      <div class="caption" id="caption" aria-live="polite">
-        <span class="cap-n" id="capN">01</span>
-        <div><b id="capT">取点</b><p id="capL">点一下，它就知道你说的是哪个元素</p></div>
-      </div>
-      <nav class="rail" id="rail" aria-label="章节"></nav>
-      <div class="bar"><i id="barFill"></i></div>
+      <nav class="steps" id="steps" aria-label="章节"></nav>
     </div>
   </section>
 

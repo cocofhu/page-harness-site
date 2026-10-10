@@ -4,16 +4,16 @@
   const opening = $('#opening'), opWord = $('#opWord')
   const h1 = $('#h1'), cands = [...document.querySelectorAll('.cand')], below = $('#below')
   const pop = $('#pop'), popLive = $('#popLive'), design = $('#design'), designGo = $('#designGo'), typed = $('#typed'), work = $('#work')
-  const ctrl = $('#ctrl'), ctrlIdx = $('#ctrlIdx'), ctrlLabel = $('#ctrlLabel'), ctrlNext = $('#ctrlNext'), ctrlCompare = $('#ctrlCompare'), ctrlAccept = $('#ctrlAccept')
+  const ctrl = $('#ctrl'), ctrlDots = $('#ctrlDots'), ctrlNext = $('#ctrlNext'), ctrlCompare = $('#ctrlCompare'), ctrlAccept = $('#ctrlAccept')
   const pro = $('#pro'), proPrice = $('#proPrice'), proBtn = $('#proBtn'), pin1 = $('#pin1'), pin2 = $('#pin2')
-  const thread = $('#thread'), reply = $('#reply'), tDone = $('#tDone'), tAgent = document.querySelector('.t-agent')
+  const thread = $('#thread'), typing = $('#typing'), sk1 = $('#sk1'), sk2 = $('#sk2'), tDone = $('#tDone')
   const code = $('#code'), codeAt = [...code.querySelectorAll('[data-at]')]
   const wires = [...document.querySelectorAll('.wires path')], packets = $('.wires .pk')
-  const nodes = ['#nA1', '#nA2', '#nA3', '#nDev'].map($), tags = [$('#tagMcp'), $('#tagProxy')], portChip = $('#portChip')
+  const nodes = ['#nA1', '#nA2', '#nA3', '#nDev'].map($), tags = [$('#tagMcp')], portChip = $('#portChip')
   const finale = $('#finale'), sel = $('#sel'), selTag = $('#selTag'), cursor = $('#cursor')
-  const dockPick = $('#dockPick'), noteCount = $('#noteCount'), vtoast = $('#vtoast')
+  const dockPick = $('#dockPick'), noteCount = $('#noteCount'), hint = $('#hint'), slots = [...document.querySelectorAll('.w-slots i')]
   const bubble = $('#bubble'), bubbleText = $('#bubbleText')
-  const caption = $('#caption'), capN = $('#capN'), capT = $('#capT'), capL = $('#capL'), rail = $('#rail'), barFill = $('#barFill')
+  const steps = $('#steps')
 
   const clamp = (x, a = 0, b = 1) => (x < a ? a : x > b ? b : x)
   const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
@@ -28,21 +28,19 @@
     [0.215, 900, 800, 1.32], [0.31, 900, 800, 1.32], [0.36, 800, 800, 1.45], [0.445, 800, 800, 1.45],
     [0.49, 800, 880, 1.12], [0.535, 800, 880, 1.12], [0.575, 1130, 880, 0.98], [0.635, 1130, 880, 0.98],
     [0.675, 800, 930, 1.3], [0.775, 820, 930, 1.3], [0.825, 790, 900, 0.6], [0.89, 790, 900, 0.6],
-    [0.94, 800, 975, 0.98], [1, 800, 975, 0.98],
+    [0.94, 800, 935, 0.96], [1, 800, 935, 0.96],
   ]
   const SCENES = [
-    { a: 0, b: 0.1, t: '开场', go: 0 },
-    { a: 0.1, b: 0.205, n: '01', t: '取点', l: '点一下，它就知道你说的是哪个元素', go: 0.17 },
-    { a: 0.205, b: 0.37, n: '02', t: '描述', l: '说一句想要什么，Agent 开始写', go: 0.29 },
-    { a: 0.37, b: 0.545, n: '03', t: 'Live 候选', l: '几个版本直接写进源码，原位切换或并排对比', go: 0.5 },
-    { a: 0.545, b: 0.645, n: '04', t: '采用', l: '留下选中的，其余自动清理', go: 0.625 },
-    { a: 0.645, b: 0.795, n: '05', t: '评审', l: '意见钉在页面上，Agent 回复并修好', go: 0.775 },
-    { a: 0.795, b: 0.9, n: '06', t: '驱动', l: '你本机已登录的 Claude Code、Codex、Cursor Agent', go: 0.87 },
-    { a: 0.9, b: 1.01, n: '07', t: '轮到你', l: '点右下角「取点」，选中页面上任何东西', go: 1 },
+    { a: 0, b: 0.1, go: 0 },
+    { a: 0.1, b: 0.205, t: '取点', ic: 'i-cursor', go: 0.17 },
+    { a: 0.205, b: 0.37, t: '描述', ic: 'i-spark', go: 0.29 },
+    { a: 0.37, b: 0.545, t: '候选', ic: 'i-split', go: 0.5 },
+    { a: 0.545, b: 0.645, t: '采用', ic: 'i-check', go: 0.625 },
+    { a: 0.645, b: 0.795, t: '评审', ic: 'i-pin', go: 0.775 },
+    { a: 0.795, b: 0.9, t: '驱动', ic: 'i-plug', go: 0.87 },
+    { a: 0.9, b: 1.01, t: '试试', ic: 'i-hand', go: 1 },
   ]
-  const H1_NAMES = ['原版', '渐变强调', '大小对比', '荧光标记']
-  const PROMPT = '更有冲击力一点，出 3 个风格差异明显的版本'
-  const REPLY = '已把价格放大到 46px，加上「最受欢迎」角标，卡片也更突出了。'
+  const PROMPT = '更有冲击力'
   const CLICKS = [0.155, 0.195, 0.305, 0.395, 0.425, 0.45, 0.535]
 
   let vw = 0, vh = 0, fit = 1, S = 1, tx = 0, ty = 0, stageBox
@@ -101,8 +99,9 @@
 
   function render(p) {
     stageBox = stage.getBoundingClientRect()
-    const [cx, cy, z] = camAt(p)
+    let [cx, cy, z] = camAt(p)
     const portrait = vw < vh
+    if (portrait) cx += 420 * er(p, 0.55, 0.58) * (1 - er(p, 0.635, 0.67))
     S = fit * z * (portrait ? 1 + 0.45 * clamp((z - 0.6) / 0.4) : 1)
     tx = vw / 2 - cx * S
     ty = vh * (portrait ? 0.44 : 0.5) - cy * S
@@ -136,7 +135,8 @@
     // caption, rail, progress
     const si = SCENES.findIndex((s) => p >= s.a && p < s.b)
     setScene(si)
-    barFill.style.transform = `scaleX(${p})`
+    steps.classList.toggle('off', p < 0.07 || (vw < 760 && p > 0.92))
+    if (si > 0) stepBtns[si - 1].style.setProperty('--sp', r(p, SCENES[si].a, SCENES[si].b))
 
     // code diff
     code.style.opacity = er(p, 0.565, 0.59) * (1 - er(p, 0.635, 0.655))
@@ -176,16 +176,18 @@
     popLive.classList.toggle('hover', within(p, 0.185, 0.205))
 
     design.classList.toggle('on', within(p, 0.205, 0.32))
-    typed.textContent = PROMPT.slice(0, Math.round(PROMPT.length * r(p, 0.22, 0.29)))
+    place(design, hb.x + hb.w / 2 - 220, hb.y + hb.h + 14)
+    typed.textContent = PROMPT.slice(0, Math.round(PROMPT.length * r(p, 0.22, 0.28)))
     designGo.classList.toggle('hover', within(p, 0.295, 0.32))
     designGo.classList.toggle('down', Math.abs(p - 0.305) < 0.004)
     work.classList.toggle('on', within(p, 0.32, 0.37))
+    place(work, hb.x + hb.w / 2 - work.offsetWidth / 2, hb.y + hb.h + 14)
+    slots.forEach((el, i) => el.style.setProperty('--f', r(p, 0.325 + i * 0.014, 0.337 + i * 0.014)))
 
     ctrl.classList.toggle('on', within(p, 0.37, 0.545))
-    const cv = showCands ? 3 : v
-    ctrlIdx.textContent = `${Math.max(cv, 1)}/3`
-    ctrlLabel.textContent = H1_NAMES[Math.max(cv, 1)]
-    ctrlCompare.textContent = p >= 0.45 ? '原位切换' : '并排对比'
+    const cv = showCands ? 3 : Math.max(v, 1)
+    setDots(3, cv - 1)
+    ctrlCompare.classList.toggle('hi', p >= 0.45)
     ctrlCompare.style.display = ''
     place(ctrl, hb.x + hb.w / 2 - ctrl.offsetWidth / 2, hb.y - 56)
     ctrlNext.classList.toggle('hover', within(p, 0.385, 0.432))
@@ -201,9 +203,10 @@
     pin1.classList.toggle('done', p >= 0.77)
     pin1.textContent = p >= 0.77 ? '✓' : '1'
     thread.classList.toggle('on', within(p, 0.69, 0.795))
-    place(thread, pc.x - 306, pc.y - 10)
-    tAgent.classList.toggle('on', p >= 0.71)
-    reply.textContent = REPLY.slice(0, Math.round(REPLY.length * r(p, 0.71, 0.75)))
+    place(thread, pc.x - 246, pc.y - 4)
+    typing.classList.toggle('on', within(p, 0.71, 0.735))
+    sk1.classList.toggle('on', p >= 0.735)
+    sk2.classList.toggle('on', p >= 0.75)
     tDone.classList.toggle('on', p >= 0.77)
 
     // selection frame: flies from the opening headline into the app
@@ -230,31 +233,28 @@
     }
   }
 
-  // caption + rail
-  let sceneIdx = -1, swapTimer
-  SCENES.forEach((s, i) => {
+  // step bar
+  let sceneIdx = -1
+  SCENES.slice(1).forEach((sc, i) => {
     const b = document.createElement('button')
     b.type = 'button'
-    b.innerHTML = `<span>${s.t}</span><i></i>`
-    b.addEventListener('click', () => goto(i))
-    rail.appendChild(b)
+    b.setAttribute('aria-label', sc.t)
+    b.innerHTML = `<svg><use href="#${sc.ic}"/></svg><span>${sc.t}</span>`
+    b.addEventListener('click', () => goto(i + 1))
+    steps.appendChild(b)
   })
-  const railBtns = [...rail.children]
+  const stepBtns = [...steps.children]
   function setScene(i) {
     if (i === sceneIdx) return
     sceneIdx = i
-    railBtns.forEach((b, k) => b.classList.toggle('on', k === i))
-    const s = SCENES[i]
-    clearTimeout(swapTimer)
-    if (!s || !s.n) { caption.classList.remove('on'); return }
-    caption.classList.add('swap')
-    swapTimer = setTimeout(() => {
-      capN.textContent = s.n
-      capT.textContent = s.t
-      capL.textContent = s.l
-      caption.classList.remove('swap')
-      caption.classList.add('on')
-    }, caption.classList.contains('on') ? 150 : 0)
+    stepBtns.forEach((b, k) => {
+      b.classList.toggle('on', k === i - 1)
+      b.classList.toggle('done', k < i - 1)
+    })
+  }
+  function setDots(n, on) {
+    if (ctrlDots.children.length !== n) ctrlDots.innerHTML = '<i></i>'.repeat(n)
+    ;[...ctrlDots.children].forEach((d, k) => d.classList.toggle('on', k === on))
   }
   function goto(i) {
     const max = film.offsetHeight - innerHeight
@@ -291,12 +291,7 @@
     pill: ['原版', '描边', '渐变'],
   }
   let picking = false, locked = null, session = null, userPins = 0, toastTimer
-  const vt = (text) => {
-    vtoast.textContent = text
-    vtoast.classList.add('on')
-    clearTimeout(toastTimer)
-    toastTimer = setTimeout(() => vtoast.classList.remove('on'), 2200)
-  }
+  const vt = () => {}
   function enterLive() {
     live = true
     stage.classList.add('live')
@@ -306,7 +301,7 @@
     pin1.classList.remove('on'); pin2.classList.remove('on')
     dockPick.classList.remove('on')
     noteCount.textContent = userPins || ''
-    vt('轮到你了：点「取点」，再点页面上的任何元素')
+    hint.classList.add('on')
   }
   function exitLive() {
     live = false
@@ -336,7 +331,7 @@
     if (!live) return
     if (session) endSession(false)
     setPicking(!picking)
-    if (picking) vt('移到元素上看高亮，点击选中')
+    hint.classList.remove('on')
   })
   document.querySelectorAll('.dock button:not(#dockPick)').forEach((b) => b.addEventListener('click', () => {
     if (live) vt('这里只开放「取点」，其余功能在 npx page-harness 里')
@@ -399,13 +394,17 @@
     setPicking(false)
     showSel(el)
     if (el === h1) h1.classList.add('shimmer')
+    const b = vr(el)
+    place(work, clamp(b.x + b.w / 2 - 110, 10, 880), b.y + b.h + 64 > 640 ? b.y - 70 : b.y + b.h + 14)
     work.classList.add('on')
+    slots.forEach((el, i) => { el.style.setProperty('--f', 0); setTimeout(() => el.style.setProperty('--f', 1), 150 + i * 280) })
     setTimeout(() => {
       if (!session || session.el !== el) return
       h1.classList.remove('shimmer')
       work.classList.remove('on')
       sel.style.opacity = 0
       ctrlCompare.style.display = 'none'
+      slots.forEach((el) => el.style.setProperty('--f', 0))
       applySession()
       ctrl.classList.add('on')
     }, 1100)
@@ -414,8 +413,7 @@
     const s = session
     const n = s.order.length - 1
     s.el.dataset.v = s.order[s.i]
-    ctrlIdx.textContent = s.i === 0 ? `原版` : `${s.i}/${n}`
-    ctrlLabel.textContent = s.i === 0 ? '当前' : VARIANTS[s.kind][s.order[s.i]]
+    setDots(n + 1, s.i)
     requestAnimationFrame(() => {
       const b = vr(s.el)
       place(ctrl, clamp(b.x + b.w / 2 - ctrl.offsetWidth / 2, 10, 1110 - ctrl.offsetWidth), b.y - 56 < 8 ? b.y + b.h + 12 : b.y - 56)
