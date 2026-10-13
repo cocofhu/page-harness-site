@@ -93,7 +93,7 @@ function build(){const t=T[L],h=t.hero,c=t.cta;
   <div class="hero" data-k="hero"><div class="idx"><span><b>●</b> ${h.idx[0]}</span><span>${h.idx[1]}</span><span>${h.idx[2]}</span><span>${h.idx[3]}</span></div>
    <h1 class="h">${h.h}${br(h.br,h.bl)}${h.tail}</h1><p class="sub">${h.sub}</p>
    <div class="ctas"><div class="cmd"><span>$</span>npx page-harness 3000<button data-copy="npx page-harness 3000">⌘C</button></div><a class="ghost" href="#" data-go="1">${h.ghost}</a></div></div>
-  ${head(t.steps[0])}${browser('bw','<span data-k="u0">localhost:3000</span>/deployments','owner',t)}${term('tm',TL(false))}${XM}</div></section>
+  ${head(t.steps[0])}${browser('bw','<span data-k="u0">localhost:3000</span>/deployments','owner',t).replace(/<\/div>$/,`<video class="hv" data-k="hv" src="assets/hero-${L}.mp4" poster="assets/hero-${L}-poster.webp" muted loop playsinline ${RM.matches?'':'autoplay'} preload="metadata" aria-hidden="true"></video></div>`)}${term('tm',TL(false))}${XM}</div></section>
  <section class="sc" data-k="sc1"><div class="in">${head(t.steps[1])}${browser('bw','localhost:17990/deployments','owner',t)}${XM}</div></section>
  <section class="sc" data-k="sc2"><div class="in">${head(t.steps[2])}${browser('bw','192.168.1.20:17990/deployments','rev',t,t.ov.reviewer)}${term('tm',TL(true),760)}${XM}</div></section>
  <section class="sc" data-k="sc3"><div class="in">${head(t.steps[3])}<div class="cw" data-k="cw">${chatBody(t.ov,t,t.chat,true)}<div class="cur" data-k="cur">${I.cur('#0E0E10')}<i class="ck"></i></div></div>${XM}</div></section>
@@ -196,6 +196,7 @@ function typeInto(m,txt,k,ref){m.itx.textContent=typed(txt,k);m.iph.style.displa
 function s0(m,r,p){
  const t=S(p,.08,.34);
  pose(m.hero,0,lerp(0,-150,t),1);m.hero.style.opacity=1-S(p,.08,.24);
+ if(m.hv){const o=1-S(p,.08,.24);m.hv.style.opacity=o;m.hv.style.visibility=o>0?'':'hidden';if(o>0&&!RM.matches&&m.hv.paused)m.hv.play().catch(()=>{});else if(o<=0&&!m.hv.paused)m.hv.pause()}
  const bw=m.bw,hx=168,hy=528,hs=1.2;pose(bw,lerp(hx,STEP.x,t),lerp(hy,STEP.y,t),lerp(hs,STEP.s,t));
  m.head.style.opacity=S(p,.24,.36);m.head.style.transform=`translateY(${lerp(18,0,S(p,.24,.36))}px)`;
  const tt=S(p,.3,.4);pose(m.tm,480,lerp(470,440,tt),.8,tt);

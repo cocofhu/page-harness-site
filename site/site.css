@@ -70,6 +70,7 @@ nav .sp{flex:1}
 .chrome .who{margin-left:auto;font:500 11px var(--mono);color:var(--mate);display:flex;align-items:center;gap:6px}
 .chrome .who:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--mate)}
 .vp{position:absolute;top:40px;left:0;width:920px;height:560px;overflow:hidden}
+.bw .hv{position:absolute;top:40px;left:0;width:920px;height:560px;object-fit:cover;background:#fafafa;z-index:5;pointer-events:none;will-change:opacity}
 .reload{position:absolute;left:0;top:0;height:2px;background:var(--acc);width:0;z-index:30}
 /* Orbit app */
 .orb{position:absolute;inset:0;display:flex;font:400 12.5px "Inter",sans-serif;color:#2E2E35}
