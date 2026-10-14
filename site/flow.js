@@ -119,18 +119,18 @@ const LEN=[3.4,4.2,4.6,3.6,1.0],TR=.8;
 const START=[];{let u=0;LEN.forEach((l,i)=>{START.push(u);u+=l+(i<LEN.length-1?TR:0)})}
 const TOTAL=START[4]+LEN[4];
 /* ---------- segment playback: one gesture = one beat, time-based ---------- */
-// beat stops in scene-local progress; each beat plays from the previous stop to this one
-// one beat per scene: each gesture plays a whole scene
+// one beat per scene; first scroll plays the scene, further scrolls interrupt and skip ahead
 const BEATS=[[0,1,'start'],[1,1,'pick·chat·hmr'],[2,1,'share·review'],[3,1,'agents'],[4,.02,'install']];
 // short holds after sub-actions inside a scene (scene-local progress), so each action reads
 const HOLDS=[[.38,.62],[.40,.60,.74],[.29,.565,.72],[.31,.62],[]];
-const HOLD_MS=180,SCENE_MS=980,WIPE_MS=720,BACK=.45,MIN_MS=900;
+const HOLD_MS=160,SCENE_MS=920,WIPE_MS=640,BACK=.45,MIN_MS=720;
 const STOPS=[0,...BEATS.map(([i,p])=>START[i]+p*LEN[i])];
 const RM=matchMedia('(prefers-reduced-motion: reduce)');
-let U=0,anim=null,lastIn=0;
+let U=0,anim=null,lastIn=0,lastGest=0;
 function stopIdx(u){let k=0;STOPS.forEach((s,i)=>{if(u>=s-1e-4)k=i});return k}
 const HOLD_U=HOLDS.flatMap((h,i)=>h.map(p=>START[i]+p*LEN[i]));
 const inScene=u=>START.some((st,i)=>u>=st-1e-6&&u<=st+LEN[i]+1e-6);
+function halt(snap){if(!anim)return;if(anim.raf)cancelAnimationFrame(anim.raf);if(anim.timer)clearTimeout(anim.timer);if(snap!==undefined)U=snap;else if(typeof anim.to==='number')U=anim.to;anim=null}
 // build a time→u keyframe list from a to b: scenes at SCENE_MS/u, wipes at WIPE_MS/u, holds forward only
 function plan(a,b){const back=b<a,lo=Math.min(a,b),hi=Math.max(a,b);
  const cuts=new Set([lo,hi]);START.forEach((st,i)=>{[st,st+LEN[i]].forEach(v=>{if(v>lo&&v<hi)cuts.add(v)})});HOLD_U.forEach(v=>{if(v>lo&&v<hi)cuts.add(v)});
@@ -140,28 +140,32 @@ function plan(a,b){const back=b<a,lo=Math.min(a,b),hi=Math.max(a,b);
   if(!back&&i<pts.length-1&&HOLD_U.some(v=>Math.abs(v-u1)<1e-6)){t+=HOLD_MS;K.push([t,u1])}}
  const tot=K[K.length-1][0],min=back?MIN_MS*BACK:MIN_MS;if(tot<min&&tot>0)K.forEach(k=>k[0]*=min/tot);
  return K}
-function play(to){if(anim)cancelAnimationFrame(anim.raf);
- if(RM.matches){U=to;anim=null;lastIn=performance.now()+280;render();return}
+function play(to,fast){halt();
+ if(RM.matches||fast||Math.abs(to-U)<1e-3){U=to;render();return}
  const K=plan(U,to),T1=K[K.length-1][0],t0=performance.now();anim={to,ms:T1};
  const at=t=>{for(let i=1;i<K.length;i++){if(t<=K[i][0]){const d=K[i][0]-K[i-1][0];return d?lerp(K[i-1][1],K[i][1],(t-K[i-1][0])/d):K[i][1]}}return to};
- const tick=now=>{const t=now-t0;U=t>=T1?to:at(t);render();if(t<T1)anim.raf=requestAnimationFrame(tick);else{anim=null;U=to;lastIn=performance.now()+280;render()}};
+ const tick=now=>{if(!anim)return;const t=now-t0;U=t>=T1?to:at(t);render();if(t<T1)anim.raf=requestAnimationFrame(tick);else{anim=null;U=to;render()}};
  anim.raf=requestAnimationFrame(tick)}
-function next(){if(anim)return;const i=STOPS.findIndex(s=>s>U+1e-4);if(i<0)return;play(STOPS[i])}
-function prev(){if(anim)return;let i=-1;STOPS.forEach((s,k)=>{if(s<U-1e-4)i=k});if(i<0)return;play(STOPS[i])}
-function go(i){if(anim){cancelAnimationFrame(anim.raf);anim=null}
- const to=i?START[i]+.02:0,cv=document.getElementById('cv');
- if(RM.matches||Math.abs(to-U)<1e-3){U=to;render();return}
- cv.style.transition='opacity .18s var(--ease)';cv.style.opacity=0;anim={to};
- setTimeout(()=>{U=to;anim=null;render();cv.style.opacity=1;setTimeout(()=>{cv.style.transition=''},200)},180)}
-function gesture(dir){if(anim)return;const now=performance.now();if(now<lastIn)return;lastIn=now+220;dir>0?next():prev()}
-addEventListener('wheel',e=>{e.preventDefault();if(anim)return;const d=Math.abs(e.deltaY)>=Math.abs(e.deltaX)?e.deltaY:e.deltaX;if(Math.abs(d)<8)return;gesture(d)},{passive:false});
-addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;let d=0;
- if(k==='ArrowDown'||k==='ArrowRight'||k==='PageDown'||(k===' '&&!e.shiftKey))d=1;else if(k==='ArrowUp'||k==='ArrowLeft'||k==='PageUp'||(k===' '&&e.shiftKey))d=-1;
- else if(k==='Home'){e.preventDefault();go(0);return}else if(k==='End'){e.preventDefault();go(4);return}
- if(!d)return;e.preventDefault();if(e.repeat||anim)return;d>0?next():prev()});
+function step(dir,forceFast){const now=performance.now(),rapid=!!forceFast||(now-lastGest<420);lastGest=now;
+ if(anim){const to=anim.to;halt(to);render()}
+ if(dir>0){const i=STOPS.findIndex(s=>s>U+1e-4);if(i<0)return;play(STOPS[i],rapid)}
+ else{let i=-1;STOPS.forEach((s,k)=>{if(s<U-1e-4)i=k});if(i<0)return;play(STOPS[i],rapid)}}
+function next(){step(1)}
+function prev(){step(-1)}
+function go(i){halt();const to=i?START[i]+.02:0;U=to;lastGest=performance.now();render()}
+function gesture(dir){const now=performance.now();if(now<lastIn)return;lastIn=now+70;step(dir)}
+addEventListener('wheel',e=>{e.preventDefault();const d=Math.abs(e.deltaY)>=Math.abs(e.deltaX)?e.deltaY:e.deltaX;if(Math.abs(d)<8)return;gesture(d)},{passive:false});
+addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;
+ if(k==='Home'){e.preventDefault();go(0);return}
+ if(k==='End'||k==='PageDown'){e.preventDefault();go(4);return}
+ if(k==='PageUp'){e.preventDefault();go(0);return}
+ let d=0;
+ if(k==='ArrowDown'||k==='ArrowRight'||(k===' '&&!e.shiftKey))d=1;
+ else if(k==='ArrowUp'||k==='ArrowLeft'||(k===' '&&e.shiftKey))d=-1;
+ if(!d)return;e.preventDefault();if(e.repeat)return;gesture(d)});
 let ty=null;addEventListener('touchstart',e=>{ty=e.touches[0].clientY},{passive:true});
 addEventListener('touchmove',e=>{if(e.cancelable)e.preventDefault()},{passive:false});
-addEventListener('touchend',e=>{if(ty===null||anim)return;const dy=ty-e.changedTouches[0].clientY;ty=null;if(Math.abs(dy)>36)gesture(dy>0?1:-1)});
+addEventListener('touchend',e=>{if(ty===null)return;const dy=ty-e.changedTouches[0].clientY;ty=null;if(Math.abs(dy)>36)gesture(dy>0?1:-1)});
 function progress(){const pg=G.pg;if(!pg)return;const k=stopIdx(U);let st=0;START.forEach((v,i)=>{if(U>=v-TR*.5)st=i});pg.num.textContent=String(st+1).padStart(2,'0');on(pg.el,'end',st===4);
  pg.dots.forEach((d,i)=>{on(d,'on',i+1<=k);on(d,'cur',i+1===k)})}
 /* ---------- layout poses (canvas coords) ---------- */
