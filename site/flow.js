@@ -19,11 +19,11 @@ const I={
  cur:c=>`<svg viewBox="0 0 16 20"><path d="M1 1l13.5 7.2-5.8 1.4L6 15.4z" fill="${c}" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/></svg>`};
 const LOGO='<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M4 11V4h7M21 4h7v7M28 21v7h-7M11 28H4v-7" stroke="#0E0E10" stroke-width="3" stroke-linecap="square"/><path d="M11 10l13 5.6-5.4 1.8L16.8 23z" fill="#FF5A1F" stroke="#FF5A1F" stroke-width="1.6" stroke-linejoin="round"/></svg>';
 const LOGO16='<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M1 5.5V1h4.5M10.5 1H15v4.5M15 10.5V15h-4.5M5.5 15H1v-4.5" stroke="#0E0E10" stroke-width="2"/><path d="M4.6 4.2l7.6 3.3-3.1 1.1-1.2 3.2z" fill="#FF5A1F" stroke="#FF5A1F" stroke-width="1.2" stroke-linejoin="round"/></svg>';
-const AG={claude:['Claude Code','claudecode-color'],codex:['Codex','codex-color'],cursor:['Cursor CLI','cursor'],codebuddy:['CodeBuddy','codebuddy-color'],opencode:['OpenCode','opencode']};
+const AG={claude:['Claude Code','claudecode-color'],codex:['Codex','codex-color'],cursor:['Cursor Agent','cursor'],codebuddy:['CodeBuddy','codebuddy-color'],opencode:['OpenCode','opencode']};
 const ai=(k,cls)=>`<img class="ai${cls?' '+cls:''}" src="site/icons/${AG[k][1]}.svg" alt="">`;
 const aiSrc=k=>`site/icons/${AG[k][1]}.svg`;
 
-const AGL=[['claude','Claude Code'],['codex','Codex'],['cursor','Cursor CLI'],['codebuddy','CodeBuddy Code'],['opencode','OpenCode']].map(([k,n])=>`<em class="an">${ai(k)}${n}</em>`).join('');
+const AGL=[['claude','Claude Code'],['codex','Codex'],['cursor','Cursor Agent'],['codebuddy','CodeBuddy Code'],['opencode','OpenCode']].map(([k,n])=>`<em class="an">${ai(k)}${n}</em>`).join('');
 const GH='<svg class="gl" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>';
 const NPM='<svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" fill="#fff"/><path fill="#CB3837" d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/></svg>';
 const LOCK='<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="2.5" y="5.5" width="7" height="5" rx="1"/><path d="M4 5.5V4a2 2 0 014 0v1.5"/></svg>';
@@ -42,7 +42,7 @@ function chatBody(o,t,c,big){ // shared by drawer & standalone chat window
  return `<div class="tb"><span class="gr">⋮⋮</span>page-harness<span class="sp"></span><span class="x">—</span></div>
  <div class="tabs"><span class="tab on" data-k="tab1">${ai('claude')}${c.t1}</span>${big?`<span class="tab new" data-k="tab2"><img class="ai" data-k="tab2i" src="${aiSrc('claude')}" alt=""><span data-k="tab2l">${o.newChat}</span></span>`:''}<span class="tab add" data-k="add">+</span></div>
  <div class="agrow"><span class="agsel" data-k="ags"><img class="ai" data-k="agi" src="${aiSrc('claude')}" alt=""><span data-k="agl">Claude Code</span><b class="cv">▾</b></span><span class="mdl">${o.model}<b class="cv">▾</b></span>
-  ${big?`<div class="amenu" data-k="am"><div class="now" data-k="am0">${ai('claude')}Claude Code<s>✓</s></div><div data-k="am1">${ai('codex')}Codex</div><div data-k="am2">${ai('cursor')}Cursor CLI</div><div class="na">${ai('codebuddy')}CodeBuddy<small>${o.na}</small></div><div class="na">${ai('opencode')}OpenCode<small>${o.na}</small></div></div>`:''}</div>
+  ${big?`<div class="amenu" data-k="am"><div class="now" data-k="am0">${ai('claude')}Claude Code<s>✓</s></div><div data-k="am1">${ai('codex')}Codex</div><div data-k="am2">${ai('cursor')}Cursor Agent</div><div class="na">${ai('codebuddy')}CodeBuddy<small>${o.na}</small></div><div class="na">${ai('opencode')}OpenCode<small>${o.na}</small></div></div>`:''}</div>
  <div class="msgs"><div data-k="h1" style="display:contents">
   <div class="mg me" data-k="m1"><span class="ref">${I.cross}span.badge</span><br>${c.m1}</div>
   <div class="mg tool" data-k="tl1">Read <span>components/StatusBadge.tsx</span></div>
@@ -88,7 +88,7 @@ function build(){const t=T[L],h=t.hero,c=t.cta;
  const cv=document.getElementById('cv');
  cv.innerHTML=`<nav><a class="brand" href="#" data-go="0">${LOGO}page-harness</a><div class="links">${t.nav.map((n,i)=>`<a href="#" data-go="${i}" data-k="nl${i}">/${n}</a>`).join('')}</div><div class="sp"></div>
  <div class="lang"><button data-l="zh" class="${L==='zh'?'on':''}">中</button>/<button data-l="en" class="${L==='en'?'on':''}">EN</button></div>
- <a class="pill" href="https://github.com/cocofhu/page-harness-coco" target="_blank" rel="noopener">GitHub</a><a class="pill f" href="#" data-go="4">npx page-harness</a></nav>
+ <a class="pill" href="https://github.com/Tencent/page-harness" target="_blank" rel="noopener">GitHub</a><a class="pill f" href="#" data-go="4">npx page-harness</a></nav>
  <section class="sc" data-k="sc0"><div class="in">
   <div class="hero" data-k="hero"><div class="idx"><span><b>●</b> ${h.idx[0]}</span><span>${h.idx[1]}</span><span>${h.idx[2]}</span><span>${h.idx[3]}</span></div>
    <h1 class="h">${h.h}${br(h.br,h.bl)}${h.tail}</h1><p class="sub">${h.sub}</p>
@@ -101,8 +101,8 @@ function build(){const t=T[L],h=t.hero,c=t.cta;
   <h2 class="h">${c.h}${br(c.br,c.bl)}${c.tail}</h2><p class="sub">${c.sub}</p>
   <div class="cmd"><span>$</span>npx page-harness http://localhost:3000<button data-copy="npx page-harness http://localhost:3000">${c.copy}</button></div>
   <p class="reqs">${c.reqs}</p>
-  <div class="cl"><a class="f" href="https://www.npmjs.com/package/page-harness" target="_blank" rel="noopener">${NPM}${c.npm}<small>npmjs.com/package/page-harness</small></a><a href="https://github.com/cocofhu/page-harness-coco" target="_blank" rel="noopener">${GH}${c.gh}<small>cocofhu/page-harness-coco</small><em class="priv">${LOCK}${c.priv}</em></a></div></div>
-  <div class="ags">${[['claude','Claude Code'],['codex','Codex'],['cursor','Cursor CLI'],['codebuddy','CodeBuddy Code'],['opencode','OpenCode']].map(([k,n])=>`<span>${ai(k)}${n}</span>`).join('')}</div>
+  <div class="cl"><a class="f" href="https://www.npmjs.com/package/page-harness" target="_blank" rel="noopener">${NPM}${c.npm}<small>npmjs.com/package/page-harness</small></a><a href="https://github.com/Tencent/page-harness" target="_blank" rel="noopener">${GH}${c.gh}<small>Tencent/page-harness</small></a></div></div>
+  <div class="ags">${[['claude','Claude Code'],['codex','Codex'],['cursor','Cursor Agent'],['codebuddy','CodeBuddy Code'],['opencode','OpenCode']].map(([k,n])=>`<span>${ai(k)}${n}</span>`).join('')}</div>
   <div class="foot"><span class="fl">${LOGO16}page-harness <i>v0.1.1</i></span><span>${c.lic}</span><span>localhost:17990 · localhost:17991</span></div></div></section>
  <div class="wipe" data-k="wipe"><span data-k="wl"></span></div>
  <div class="pg" data-k="pg" aria-hidden="true"><span class="n"><b data-k="pgn">01</b> / 05</span><span class="dt">${BEATS.map((b,i)=>`<i></i>`).join('')}</span></div>`;

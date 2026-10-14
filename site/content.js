@@ -1,4 +1,4 @@
-// All copy. Facts checked against README / src (v0.1.1).
+// All copy. Facts checked against README / src (v0.1.10).
 window.PH_T={
 zh:{nav:['启动','取点','评审','Agent'],
  hero:{idx:['01 / 05','本地运行','任意前端','5 种 Agent CLI'],h:'指着页面，跟 Agent 说',br:'改哪儿',bl:'em · 3 字',tail:'',
@@ -17,7 +17,7 @@ zh:{nav:['启动','取点','评审','Agent'],
    sub:'每个会话单独选 Agent 和模型，用的是你本机已经登录的 CLI。没装的也会列出来，置灰。',
    spec:[['Agent','@agents'],['会话','多会话 · 排队 · 停止 / 重试'],['记录','<code>:17991/__ph/history</code>']]}],
  cta:{idx:['05 / 05','开始'],h:'现在就',br:'试一下',bl:'npx',tail:'。',sub:'先跑起开发服务器，再开个终端：',
-  reqs:'需要 Node.js 20.11+，以及任意一个已登录的 Agent CLI：Claude Code、Codex、Cursor CLI、CodeBuddy Code 或 OpenCode。',
+  reqs:'需要 Node.js 20.11+，以及任意一个已登录的 Agent CLI：Claude Code、Codex、Cursor Agent、CodeBuddy Code 或 OpenCode。',
   npm:'npm',gh:'GitHub',priv:'私有',copy:'复制',copied:'已复制',lic:'MIT 许可'},
  wipe:['02 / 05 — 取点 · 对话','03 / 05 — 团队评审','04 / 05 — 多 Agent','05 / 05 — 开始'],
  ov:{pick:'取点',notes:'意见',art:'产物',chat:'对话',rev:'评审',tip:'点选页面元素：引用到对话、评论或修改（Shift+点击直接引用，Esc 退出）',tipR:'点选页面元素来评论或修改（Esc 退出）',
@@ -44,7 +44,7 @@ en:{nav:['Start','Pick','Review','Agents'],
    sub:'Choose the agent and model per chat, using the CLIs already signed in on your machine. Missing ones show up greyed out.',
    spec:[['Agents','@agents'],['Chats','multiple · queue · stop / retry'],['History','<code>:17991/__ph/history</code>']]}],
  cta:{idx:['05 / 05','Get started'],h:'',br:'Try it',bl:'npx',tail:' now.',sub:'Start your dev server, then in another terminal:',
-  reqs:'Needs Node.js 20.11+ and any one signed-in agent CLI: Claude Code, Codex, Cursor CLI, CodeBuddy Code or OpenCode.',
+  reqs:'Needs Node.js 20.11+ and any one signed-in agent CLI: Claude Code, Codex, Cursor Agent, CodeBuddy Code or OpenCode.',
   npm:'npm',gh:'GitHub',priv:'private',copy:'Copy',copied:'Copied',lic:'MIT licensed'},
  wipe:['02 / 05 — Pick · Chat','03 / 05 — Team review','04 / 05 — Agents','05 / 05 — Get started'],
  ov:{pick:'Pick',notes:'Notes',art:'Artifacts',chat:'Chat',rev:'Review',tip:'Click an element to quote it in chat, comment or edit (Shift+click quotes, Esc exits)',tipR:'Click an element to comment or edit (Esc exits)',
