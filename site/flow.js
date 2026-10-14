@@ -26,7 +26,6 @@ const aiSrc=k=>`site/icons/${AG[k][1]}.svg`;
 const AGL=[['claude','Claude Code'],['codex','Codex'],['cursor','Cursor Agent'],['codebuddy','CodeBuddy Code'],['opencode','OpenCode']].map(([k,n])=>`<em class="an">${ai(k)}${n}</em>`).join('');
 const GH='<svg class="gl" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>';
 const NPM='<svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" fill="#fff"/><path fill="#CB3837" d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/></svg>';
-const LOCK='<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="2.5" y="5.5" width="7" height="5" rx="1"/><path d="M4 5.5V4a2 2 0 014 0v1.5"/></svg>';
 const br=(t,l)=>`<span class="br"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i>${t}<small>${l}</small></span>`;
 /* ---------- builders ---------- */
 const ROWS=[['fix: retry on 429','a3f91c2','ok','Ready','main','42s','2m ago'],['feat: usage chart','7b02e4d','fl','Failed','feat/usage','1m 08s','14m ago'],
@@ -75,7 +74,7 @@ function browser(k,url,kind,t,who){return `<div class="bw" data-k="${k}"><div cl
  <div class="vp" data-k="vp"><div class="reload" data-k="rl"></div>${orbit()}${overlay(kind,t)}</div></div>`}
 function term(k,lines,w){return `<div class="tm" data-k="${k}" style="width:${w||660}px"><div class="tt"><i></i><i></i><i></i><span>~/orbit — zsh</span></div><pre>${lines.map((l,i)=>`<div class="ln ln${i}" data-k="ln${i}">${l}</div>`).join('')}</pre></div>`}
 const TL=(share)=>[`<span class="ps">~/orbit $</span> <span data-k="typed"></span><span class="car" data-k="tcar"></span>`,
- `<span class="cy">page-harness</span> v0.1.1`,
+ `<span class="cy">page-harness</span> v0.1.10`,
  `  Open     <span class="bd" data-k="open">http://localhost:17990</span>  <span class="dm">→ http://localhost:3000/</span>`,
  `  History  http://localhost:17991/__ph/history`,`  Project  /Users/you/orbit`,`  Mode     source`,
  `  Agents   <span class="bd">claude</span>  codex  cursor  <span class="dm">codebuddy (not found)  opencode (not found)</span>`].concat(share?[`  Share    <span class="bd" data-k="share">http://192.168.1.20:17991/__ph/join?t=…</span>  <span class="dm">(teammates on your network join as reviewers: comment, reply, approve; they cannot run the agent)</span>`]:[]);
@@ -103,7 +102,7 @@ function build(){const t=T[L],h=t.hero,c=t.cta;
   <p class="reqs">${c.reqs}</p>
   <div class="cl"><a class="f" href="https://www.npmjs.com/package/page-harness" target="_blank" rel="noopener">${NPM}${c.npm}<small>npmjs.com/package/page-harness</small></a><a href="https://github.com/Tencent/page-harness" target="_blank" rel="noopener">${GH}${c.gh}<small>Tencent/page-harness</small></a></div></div>
   <div class="ags">${[['claude','Claude Code'],['codex','Codex'],['cursor','Cursor Agent'],['codebuddy','CodeBuddy Code'],['opencode','OpenCode']].map(([k,n])=>`<span>${ai(k)}${n}</span>`).join('')}</div>
-  <div class="foot"><span class="fl">${LOGO16}page-harness <i>v0.1.1</i></span><span>${c.lic}</span><span>localhost:17990 · localhost:17991</span></div></div></section>
+  <div class="foot"><span class="fl">${LOGO16}page-harness <i>v0.1.10</i></span><span>${c.lic}</span><span>localhost:17990 · localhost:17991</span></div></div></section>
  <div class="wipe" data-k="wipe"><span data-k="wl"></span></div>
  <div class="pg" data-k="pg" aria-hidden="true"><span class="n"><b data-k="pgn">01</b> / 05</span><span class="dt">${BEATS.map((b,i)=>`<i></i>`).join('')}</span></div>`;
  // index elements
