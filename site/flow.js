@@ -124,7 +124,7 @@ const TOTAL=START[4]+LEN[4];
 const BEATS=[[0,1,'start'],[1,1,'pick·chat·hmr'],[2,1,'share·review'],[3,1,'agents'],[4,.02,'install']];
 // short holds after sub-actions inside a scene (scene-local progress), so each action reads
 const HOLDS=[[.38,.62],[.40,.60,.74],[.29,.565,.72],[.31,.62],[]];
-const HOLD_MS=300,SCENE_MS=1550,WIPE_MS=1100,BACK=.45,MIN_MS=1500;
+const HOLD_MS=180,SCENE_MS=980,WIPE_MS=720,BACK=.45,MIN_MS=900;
 const STOPS=[0,...BEATS.map(([i,p])=>START[i]+p*LEN[i])];
 const RM=matchMedia('(prefers-reduced-motion: reduce)');
 let U=0,anim=null,lastIn=0;
@@ -141,10 +141,10 @@ function plan(a,b){const back=b<a,lo=Math.min(a,b),hi=Math.max(a,b);
  const tot=K[K.length-1][0],min=back?MIN_MS*BACK:MIN_MS;if(tot<min&&tot>0)K.forEach(k=>k[0]*=min/tot);
  return K}
 function play(to){if(anim)cancelAnimationFrame(anim.raf);
- if(RM.matches){U=to;anim=null;render();return}
+ if(RM.matches){U=to;anim=null;lastIn=performance.now()+280;render();return}
  const K=plan(U,to),T1=K[K.length-1][0],t0=performance.now();anim={to,ms:T1};
  const at=t=>{for(let i=1;i<K.length;i++){if(t<=K[i][0]){const d=K[i][0]-K[i-1][0];return d?lerp(K[i-1][1],K[i][1],(t-K[i-1][0])/d):K[i][1]}}return to};
- const tick=now=>{const t=now-t0;U=t>=T1?to:at(t);render();if(t<T1)anim.raf=requestAnimationFrame(tick);else{anim=null;U=to;render()}};
+ const tick=now=>{const t=now-t0;U=t>=T1?to:at(t);render();if(t<T1)anim.raf=requestAnimationFrame(tick);else{anim=null;U=to;lastIn=performance.now()+280;render()}};
  anim.raf=requestAnimationFrame(tick)}
 function next(){if(anim)return;const i=STOPS.findIndex(s=>s>U+1e-4);if(i<0)return;play(STOPS[i])}
 function prev(){if(anim)return;let i=-1;STOPS.forEach((s,k)=>{if(s<U-1e-4)i=k});if(i<0)return;play(STOPS[i])}
@@ -153,15 +153,15 @@ function go(i){if(anim){cancelAnimationFrame(anim.raf);anim=null}
  if(RM.matches||Math.abs(to-U)<1e-3){U=to;render();return}
  cv.style.transition='opacity .18s var(--ease)';cv.style.opacity=0;anim={to};
  setTimeout(()=>{U=to;anim=null;render();cv.style.opacity=1;setTimeout(()=>{cv.style.transition=''},200)},180)}
-function gesture(dir){const now=performance.now(),quiet=now-lastIn>220;lastIn=now;if(!quiet||anim)return;dir>0?next():prev()}
-addEventListener('wheel',e=>{e.preventDefault();const d=Math.abs(e.deltaY)>=Math.abs(e.deltaX)?e.deltaY:e.deltaX;if(Math.abs(d)<2){lastIn=performance.now();return}gesture(d)},{passive:false});
+function gesture(dir){if(anim)return;const now=performance.now();if(now<lastIn)return;lastIn=now+220;dir>0?next():prev()}
+addEventListener('wheel',e=>{e.preventDefault();if(anim)return;const d=Math.abs(e.deltaY)>=Math.abs(e.deltaX)?e.deltaY:e.deltaX;if(Math.abs(d)<8)return;gesture(d)},{passive:false});
 addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;let d=0;
  if(k==='ArrowDown'||k==='ArrowRight'||k==='PageDown'||(k===' '&&!e.shiftKey))d=1;else if(k==='ArrowUp'||k==='ArrowLeft'||k==='PageUp'||(k===' '&&e.shiftKey))d=-1;
  else if(k==='Home'){e.preventDefault();go(0);return}else if(k==='End'){e.preventDefault();go(4);return}
- if(!d)return;e.preventDefault();if(e.repeat)return;d>0?next():prev()});
+ if(!d)return;e.preventDefault();if(e.repeat||anim)return;d>0?next():prev()});
 let ty=null;addEventListener('touchstart',e=>{ty=e.touches[0].clientY},{passive:true});
 addEventListener('touchmove',e=>{if(e.cancelable)e.preventDefault()},{passive:false});
-addEventListener('touchend',e=>{if(ty===null)return;const dy=ty-e.changedTouches[0].clientY;ty=null;if(Math.abs(dy)>36&&!anim)dy>0?next():prev()});
+addEventListener('touchend',e=>{if(ty===null||anim)return;const dy=ty-e.changedTouches[0].clientY;ty=null;if(Math.abs(dy)>36)gesture(dy>0?1:-1)});
 function progress(){const pg=G.pg;if(!pg)return;const k=stopIdx(U);let st=0;START.forEach((v,i)=>{if(U>=v-TR*.5)st=i});pg.num.textContent=String(st+1).padStart(2,'0');on(pg.el,'end',st===4);
  pg.dots.forEach((d,i)=>{on(d,'on',i+1<=k);on(d,'cur',i+1===k)})}
 /* ---------- layout poses (canvas coords) ---------- */
